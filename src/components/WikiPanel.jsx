@@ -67,8 +67,8 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
     };
 
     loadProjects();
-    const unsub = db.live('projekt', () => loadProjects());
-    return () => unsub.then(u => u());
+    const projLivePromise = db.live('projekt', () => loadProjects());
+    return () => projLivePromise.then(uuid => db.kill(uuid)).catch(() => {});
   }, []);
 
   // Sync currentScope when projekt prop changes (e.g. from DetailPanel context)
@@ -99,10 +99,10 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
 
   useEffect(() => {
     load();
-    const unsub = db.live('wiki', ({ action, result }) => {
+    const wikiLivePromise = db.live('wiki', ({ action, result }) => {
       if (currentScope === 'GLOBAL' || result.projekt === currentScope || result.typ === 'system') load();
     });
-    return () => unsub.then(u => u());
+    return () => wikiLivePromise.then(uuid => db.kill(uuid)).catch(() => {});
   }, [load, currentScope]);
 
   const handleSaveEntry = async (entry) => {

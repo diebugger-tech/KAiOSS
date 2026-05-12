@@ -1,20 +1,4 @@
 #V2
-SELECT * FROM projekt;
-CREATE task:1 SET name='My Task', status='backlog', desc='Example task', tags=['#demo'], icon='📋', updated=time::now();
-DELETE projekt;
-SELECT id, name FROM projekt
-UPDATE projekt:3dnterminal SET name='3DNTerminal', stack='Rust / Bevy / Wayland', desc='3D Terminal für Cosmic Desktop', icon='🖥️', status='in-progress', cmd_start='3dn', cmd_stop='pkill -f cargo', updated=time::now();
-UPDATE projekt:cabellistpro SET name='CabellistPro', stack='FastAPI / Python / MySQL', desc='B2B SaaS Kabelmanagement & HV-Testing', icon='🚀', status='done', cmd_start='make start', cmd_stop='make stop', updated=time::now();
-UPDATE projekt:guterprompt SET name='GuterPrompt', stack='PHP 8.3 / SvelteKit / Flarum', desc='Community Prompt-Bewertungsmodell', icon='📝', status='in-progress', cmd_start='diebugger', cmd_stop='pkill -f npm', updated=time::now();
-UPDATE projekt:pflanternen SET name='Pflanternen', stack='Bash / SurrealDB / NixOS', desc='NixOS KI-Automatisierung Framework', icon='🌿', status='in-progress', cmd_start='~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop='', updated=time::now();
-UPDATE projekt:surbanai SET name='surbanai', stack='React / SurrealDB / Vite', desc='Realtime Kanban Board', icon='📋', status='in-progress', cmd_start='make dev', cmd_stop='make stop', updated=time::now();
-UPDATE projekt:cabellistpro SET cmd_start = 'make start', cmd_stop = 'make stop'; UPDATE projekt:guterprompt SET cmd_start = 'diebugger', cmd_stop = 'make stop'; UPDATE projekt:terminal SET cmd_start = '3dn', cmd_stop = 'pkill -f cargo'; UPDATE projekt:pflanternen SET cmd_start = '~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop = 'none'; UPDATE projekt:agentsystem SET cmd_start = 'agent', cmd_stop = 'exit'; UPDATE projekt:nixos_ki_os SET cmd_start = 'nix-up', cmd_stop = 'none';
-UPDATE projekt:terminal SET name='3DNTerminal', stack='Rust / Bevy / Wayland', desc='3D Terminal für Cosmic Desktop', icon='🖥️', status='in-progress', cmd_start='3dn', cmd_stop='pkill -f cargo', updated=time::now();
-UPDATE projekt:cabellistpro SET name='CabellistPro', stack='FastAPI / Python / MySQL', desc='B2B SaaS Kabelmanagement & HV-Testing', icon='🚀', status='done', cmd_start='make start', cmd_stop='make stop', updated=time::now();
-UPDATE projekt:guterprompt SET name='GuterPrompt', stack='PHP 8.3 / SvelteKit / Flarum', desc='Community Prompt-Bewertungsmodell', icon='📝', status='in-progress', cmd_start='diebugger', cmd_stop='pkill -f npm', updated=time::now();
-UPDATE projekt:pflanternen SET name='Pflanternen', stack='Bash / SurrealDB / NixOS', desc='NixOS KI-Automatisierung Framework', icon='🌿', status='in-progress', cmd_start='~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop='', updated=time::now();
-UPDATE projekt:surbanai SET name='surbanai', stack='React / SurrealDB / Vite', desc='Realtime Kanban Board', icon='📋', status='in-progress', cmd_start='make dev', cmd_stop='make stop', updated=time::now();
-CREATE projekt:surbanai SET name='surbanai', stack='React / SurrealDB / Vite', desc='Realtime Kanban Board', icon='📋', status='in-progress', tags=['#React','#SurrealDB','#OpenSource'], cmd_start='make dev', cmd_stop='make stop', updated=time::now();
 UPDATE projekt:terminal SET name='3DNTerminal', stack='Rust / Bevy / Wayland', desc='3D Terminal für Cosmic Desktop', icon='🖥️', status='in-progress', cmd_start='3dn', cmd_stop='pkill -f cargo', updated=time::now();
 UPDATE projekt:cabellistpro SET name='CabellistPro', stack='FastAPI / Python / MySQL', desc='B2B SaaS Kabelmanagement & HV-Testing', icon='🚀', status='done', cmd_start='make start', cmd_stop='make stop', updated=time::now();
 UPDATE projekt:guterprompt SET name='GuterPrompt', stack='PHP 8.3 / SvelteKit / Flarum', desc='Community Prompt-Bewertungsmodell', icon='📝', status='in-progress', cmd_start='diebugger', cmd_stop='pkill -f npm', updated=time::now();
@@ -90,3 +74,28 @@ FOR $p IN (SELECT name FROM projekt) { IF (SELECT count() FROM wiki WHERE projek
 INSERT INTO wiki { projekt: "SurKAi", typ: "system", titel: "DB_INIT / Schema", inhalt: "Die Datenbank-Initialisierung befindet sich in `src/db/init.surql`.\\\\n\\\\n### Wichtige Befehle:\\\\n\\\\n**Event anlegen:**\\\\n```sql\\\\nDEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = \\"CREATE\\" THEN { ... };\\\\n```\\\\n\\\\n**Bestand nachholen:**\\\\n```sql\\\\nFOR $p IN (SELECT name FROM projekt) { ... };\\\\n```", erstellt: time::now(), geaendert: time::now(), status: "done", prioritaet: "medium" };
 INSERT INTO wiki [  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Mermaid.js Integration", status: "open", prioritaet: "high", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Syntax Highlighting (Prism/Shiki)", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Architektur-Templates (ADR, Setup)", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: KAi Context-Sync (Wiki -> Prompt)", status: "open", prioritaet: "low", erstellt: time::now() }];
 INSERT INTO wiki [  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Mermaid.js Integration", inhalt: "", status: "open", prioritaet: "high", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Syntax Highlighting (Prism/Shiki)", inhalt: "", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: Architektur-Templates (ADR, Setup)", inhalt: "", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "SurKAi", typ: "todo", titel: "Wiki-Upgrade: KAi Context-Sync (Wiki -> Prompt)", inhalt: "", status: "open", prioritaet: "low", erstellt: time::now() }];
+-- SurKAi v1.3 Database Initialization
+-- Namespace: kanban | Database: projects
+-- 1. Tables & Indices (Implicitly created on first insert, but good to define)
+DEFINE TABLE projekt SCHEMAFULL;
+DEFINE FIELD name ON TABLE projekt TYPE string;
+DEFINE FIELD stack ON TABLE projekt TYPE string;
+DEFINE FIELD desc ON TABLE projekt TYPE string;
+DEFINE FIELD icon ON TABLE projekt TYPE string;
+DEFINE FIELD spalte ON TABLE projekt TYPE string;
+DEFINE FIELD tags ON TABLE projekt TYPE array<string>;
+DEFINE FIELD manifest ON TABLE projekt TYPE object;
+DEFINE TABLE wiki SCHEMAFULL;
+DEFINE FIELD projekt ON TABLE wiki TYPE string; -- Matches projekt.name
+DEFINE FIELD typ ON TABLE wiki TYPE string; -- 'doc', 'bug', 'todo', 'system'
+DEFINE FIELD titel ON TABLE wiki TYPE string;
+DEFINE FIELD inhalt ON TABLE wiki TYPE string;
+DEFINE FIELD status ON TABLE wiki TYPE string DEFAULT 'open';
+DEFINE FIELD prioritaet ON TABLE wiki TYPE string DEFAULT 'medium';
+DEFINE FIELD erstellt ON TABLE wiki TYPE datetime DEFAULT time::now();
+DEFINE FIELD geaendert ON TABLE wiki TYPE datetime DEFAULT time::now();
+-- 2. Events: Auto-create Wiki entry for new projects
+REMOVE EVENT IF EXISTS wiki_auto_create ON TABLE projekt;
+DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'System-generierte Uebersicht fuer ' + $after.name,    erstellt: time::now(),    geaendert: time::now(),    status: 'open',    prioritaet: 'medium'  };};
+-- 3. Migration: Populate Wiki for existing projects (Run manually)
+/*FOR $p IN (SELECT name FROM projekt) {  IF (SELECT count() FROM wiki WHERE projekt = $p.name AND titel = 'Uebersicht') = 0 {    INSERT INTO wiki {      projekt: $p.name,      typ: 'doc',      titel: 'Uebersicht',      inhalt: 'System-generierte Uebersicht fuer ' + $p.name,      erstellt: time::now(),      geaendert: time::now(),      status: 'open',      prioritaet: 'medium'    };  };};*/

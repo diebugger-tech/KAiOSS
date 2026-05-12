@@ -21,6 +21,9 @@ export function useSurrealDB() {
         setLoading(true);
         setDbError(null);
         
+        // Close any stale connection first (e.g. after HMR or previous failed attempt)
+        try { await db.close(); } catch (_) { /* ignore */ }
+
         // Attempt connection
         await db.connect(import.meta.env.VITE_SURREAL_URL, {
           namespace: import.meta.env.VITE_SURREAL_NS,
