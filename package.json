@@ -1,5 +1,6 @@
 {
   "name": "kaioss",
+  "description": "AI-native project hub powered by SurrealDB",
   "private": true,
   "version": "1.4.0",
   "type": "module",
