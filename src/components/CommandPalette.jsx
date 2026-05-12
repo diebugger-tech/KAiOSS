@@ -334,7 +334,7 @@ export default function CommandPalette({ projects, onSelectProject, onClose, onO
 
         <div style={styles.footer}>
           <span>↑↓ NAVIGATE // ENTER SELECT // ESC CLOSE</span>
-          <span>SurKAi OS v1.4</span>
+          <span>KAiOSS v1.4</span>
         </div>
       </div>
     </div>

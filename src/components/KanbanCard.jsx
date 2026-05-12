@@ -1,9 +1,12 @@
+// KAiOSS — KanbanCard
+// Mit data-card Attribut für Ghost Calculation v1.4
+
 import React from 'react';
 
 export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, wikiStats }) {
-  // Use project name as key to match wikiStats grouping in App.jsx
   const stats = wikiStats[project.name] || { done: 0, total: 0 };
   const progress = stats.total > 0 ? Math.round((stats.done / stats.total) * 100) : 0;
+
   const styles = {
     card: {
       backgroundColor: 'var(--bg-secondary)',
@@ -21,9 +24,7 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
       gap: '0.8rem',
       marginBottom: '0.5rem'
     },
-    icon: {
-      fontSize: '1.2rem'
-    },
+    icon: { fontSize: '1.2rem' },
     cardTitle: {
       fontSize: '0.9rem',
       fontWeight: 'bold',
@@ -41,19 +42,6 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
       color: 'var(--text-secondary)',
       lineHeight: '1.4',
       marginBottom: '1rem'
-    },
-    tagsContainer: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: '0.4rem'
-    },
-    tag: {
-      fontSize: '0.65rem',
-      backgroundColor: 'var(--bg-tertiary)',
-      color: 'var(--accent-green)',
-      padding: '2px 6px',
-      borderRadius: '2px',
-      border: '1px solid var(--border)'
     },
     pulseContainer: {
       marginTop: '1rem',
@@ -79,21 +67,31 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
       color: 'var(--text-muted)',
       display: 'flex',
       justifyContent: 'space-between'
-    }
+    },
+    tagsContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '0.4rem',
+      marginTop: '0.8rem'
+    },
+    tag: {
+      fontSize: '0.65rem',
+      backgroundColor: 'var(--bg-tertiary)',
+      color: 'var(--accent-green)',
+      padding: '2px 6px',
+      borderRadius: '2px',
+      border: '1px solid var(--border)'
+    },
   };
 
   return (
     <div
-      data-card
+      data-card={project.id}
       style={styles.card}
       draggable
-      onDragStart={(e) => {
-        onDragStart(e, project.id.toString());
-      }}
+      onDragStart={(e) => onDragStart(e, project.id)}
       onDragEnd={onDragEnd}
       onClick={() => onClick(project.id)}
-      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent-green)'}
-      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
     >
       <div style={styles.cardHeader}>
         <span style={styles.icon}>{project.icon || '📦'}</span>
@@ -111,6 +109,7 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
           <div style={styles.pulseFill} />
         </div>
       </div>
+
       <div style={styles.tagsContainer}>
         {Array.isArray(project.tags) && project.tags.map((tag, idx) => (
           <span key={idx} style={styles.tag}>{tag}</span>

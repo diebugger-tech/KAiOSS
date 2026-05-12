@@ -32,7 +32,7 @@ function resolveWikilinks(text) {
 
 // ─── Stable SurrealDB-safe ID from note path ───────────────────────────────
 function noteId(path) {
-  // e.g. "Projects/SurKAi.md" → "projects__surkai"
+  // e.g. "Projects/KAiOSS.md" → "projects__kaioss"
   return path
     .toLowerCase()
     .replace(/\.md$/, '')
@@ -61,7 +61,7 @@ export default function ObsidianSync({ onClose, onNotify }) {
   const [phase, setPhase] = useState('idle'); // idle | picking | scanning | syncing | done | error
   const [progress, setProgress] = useState({ current: 0, total: 0, skipped: 0, upserted: 0 });
   const [log, setLog] = useState([]);
-  const [tagFilter, setTagFilter] = useState('surkai');
+  const [tagFilter, setTagFilter] = useState('kaioss');
   const [errorMsg, setErrorMsg] = useState('');
 
   const addLog = (msg) => setLog(prev => [...prev.slice(-60), msg]);
@@ -130,7 +130,7 @@ export default function ObsidianSync({ onClose, onNotify }) {
         const id = noteId(path);
         const title = fm.title || handle.name.replace(/\.md$/, '');
 
-        // Map Obsidian note → SurKAi wiki entry
+        // Map Obsidian note → KAiOSS wiki entry
         const record = {
           titel: title,
           inhalt: cleanBody.slice(0, 8000), // cap at 8k chars
@@ -196,7 +196,7 @@ export default function ObsidianSync({ onClose, onNotify }) {
             style={styles.input}
             value={tagFilter}
             onChange={e => setTagFilter(e.target.value)}
-            placeholder="surkai, project, ..."
+            placeholder="kaioss, project, ..."
             disabled={phase === 'syncing' || phase === 'scanning'}
           />
         </div>

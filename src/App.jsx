@@ -14,6 +14,7 @@ import CommandPalette from './components/CommandPalette';
 import KaiAssistant from './components/KaiAssistant';
 import ProjectHeader from './components/ProjectHeader';
 import ObsidianSync from './components/ObsidianSync';
+import WelcomeScreen from './components/WelcomeScreen';
 
 export default function App() {
   const { projects, dbStatus, dbError, loading: isLoading } = useSurrealDB();
@@ -152,20 +153,27 @@ export default function App() {
         onNotify={showToast}
       />
 
-      <Board
-        columns={COLUMNS}
-        projects={projects}
-        isLoading={isLoading}
-        onDragStart={handleDragStart}
-        onDrop={handleDrop}
-        onCardClick={(id) => setSelectedProjectId(id)}
-        wikiStats={wikiStats}
-      />
+      {projects.length === 0 && !isLoading ? (
+        <WelcomeScreen 
+          dbStatus={dbStatus} 
+          onStart={() => setShowCreateModal(true)} 
+        />
+      ) : (
+        <Board
+          columns={COLUMNS}
+          projects={projects}
+          isLoading={isLoading}
+          onDragStart={handleDragStart}
+          onDrop={handleDrop}
+          onCardClick={(id) => setSelectedProjectId(id)}
+          wikiStats={wikiStats}
+        />
+      )}
 
       <KaiAssistant project={selectedProject} />
 
       <footer style={{ marginTop: '4rem', marginBottom: '40px', color: 'var(--text-muted)', fontSize: '0.7rem', textAlign: 'center' }}>
-        © 2026 ANDREAS BADER // sur·k·ai = surreal + kanban + ai // TERMINAL_UI
+        (c) 2026 ANDREAS BADER // {'>'} kaioss::ready // TERMINAL_UI
       </footer>
       
       <TerminalLog />

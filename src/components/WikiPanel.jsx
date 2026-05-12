@@ -493,8 +493,8 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
         <button onClick={onClose} style={styles.closeBtn}>[ ESC_CLOSE ]</button>
         
         <aside style={styles.sidebar}>
-          <div style={{ color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem', letterSpacing: '1px' }}>SURBANAI_WIKI</div>
-          <div style={{ color: 'var(--text-muted)', fontSize: '0.6rem', marginBottom: '1.5rem' }}>v1.3.0_STABLE</div>
+          <div style={{ color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem', letterSpacing: '1px' }}>KAiOSS_WIKI</div>
+          <div style={{ color: 'var(--text-muted)', fontSize: '0.6rem', marginBottom: '1.5rem' }}>v1.4.0_STABLE</div>
           
           <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem', marginBottom: '0.3rem' }}>ACTIVE_CONTEXT:</div>
           <select 
@@ -503,7 +503,7 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
             onChange={(e) => setCurrentScope(e.target.value)}
           >
             <option value="GLOBAL">--- ALLE PROJEKTE ---</option>
-            <option value="SurKAi">SurKAi (Global)</option>
+            <option value="KAiOSS">KAiOSS (Global)</option>
             {allProjects.map(p => (
               <option key={p.name} value={p.name}>{p.name}</option>
             ))}

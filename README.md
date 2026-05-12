@@ -111,8 +111,8 @@ Zugriffskontrolle (v2.0):
 ## Installation
 
 ```bash
-git clone https://github.com/diebugger-tech/surbanai
-cd surbanai
+git clone https://github.com/diebugger-tech/kaioss
+cd kaioss
 npm install
 
 # SurrealDB starten (lokal)
@@ -128,14 +128,14 @@ npm run dev
 VITE_SURREAL_URL=http://127.0.0.1:8000/rpc
 VITE_SURREAL_USER=root
 VITE_SURREAL_PASS=root
-VITE_SURREAL_NS=kanban
-VITE_SURREAL_DB=projects
+VITE_SURREAL_NS=kaioss
+VITE_SURREAL_DB=kaioss
 ```
 
 ### SurrealDB Schema
 
 ```sql
-USE NS kanban DB projects;
+USE NS kaioss DB kaioss;
 -- Tabellen werden automatisch via db/init.surql angelegt
 ```
 

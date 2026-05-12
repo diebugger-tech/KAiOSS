@@ -1,11 +1,9 @@
+// KAiOSS — Board Component
+// dropTarget ist global damit v1.5 Reorder zwischen Spalten möglich wird
+
 import React, { useState, useCallback } from 'react';
 import KanbanColumn from './KanbanColumn';
 
-/**
- * Board — owns the global dropTarget state.
- * Keeping dropTarget here (not in KanbanColumn) allows cross-column
- * ghost indicators in v1.5 (Reorder Columns / move between columns).
- */
 export default function Board({
   columns,
   projects,

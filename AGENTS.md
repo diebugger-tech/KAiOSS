@@ -1,7 +1,7 @@
-# AI Agent Constraints & Architecture (SurKAi)
+# AI Agent Constraints & Architecture (KAiOSS)
 
 > Global context and technical constraints for AI coding agents working on this repository.
-> Repo: github.com/diebugger-tech/SurKAi
+> Repo: github.com/diebugger-tech/KAiOSS
 
 ## 🏗 Project Structure
 - `src/components/`: Modular UI components (Columns, Cards, DetailPanel).

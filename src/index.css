@@ -59,7 +59,7 @@ input, textarea, select {
   font-family: inherit;
 }
 
-/* SURKAI LOGO STYLING */
+/* KAIOSS LOGO STYLING */
 .logo-text {
   transition: all 0.2s ease;
   cursor: default;
@@ -202,4 +202,19 @@ input, textarea, select {
   border: none;
   border-top: 1px solid var(--border);
   margin: 2rem 0;
+}
+
+/* WELCOME SCREEN ANIMATIONS */
+@keyframes welcome-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.welcome-logo-container {
+  animation: welcome-float 6s ease-in-out infinite;
+}
+
+.welcome-card:hover {
+  border-color: var(--accent-green) !important;
 }

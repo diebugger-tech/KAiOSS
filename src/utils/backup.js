@@ -15,7 +15,7 @@ export const createBackup = async ({ url, user, pass, ns, db, showToast }) => {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const blob = await res.blob();
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const filename = `surkai_backup_${timestamp}.surql`;
+    const filename = `kaioss_backup_${timestamp}.surql`;
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = filename;
@@ -26,7 +26,7 @@ export const createBackup = async ({ url, user, pass, ns, db, showToast }) => {
       detail: { 
         action: 'success', 
         table: 'system', 
-        message: `[${ts}] ✓ backup::export() → surkai_backup.surql` 
+        message: `[${ts}] ✓ backup::export() → kaioss_backup.surql` 
       }
     }));
     showToast?.(`✅ Backup: ${filename}`, 'success');

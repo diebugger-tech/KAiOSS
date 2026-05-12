@@ -55,7 +55,7 @@ export default function TodoPanel({ onClose }) {
     await db.query(
       'CREATE wiki SET projekt=$p, typ=$t, titel=$ti, status=$s, prioritaet=$pr, erstellt=time::now(), geaendert=time::now()',
       { 
-        p: filter === 'alle' ? 'SurKAi' : filter, 
+        p: filter === 'alle' ? 'KAiOSS' : filter, 
         t: 'todo', 
         ti: newTodo, 
         s: 'open', 
@@ -69,7 +69,7 @@ export default function TodoPanel({ onClose }) {
     if (!kaiPrompt.trim()) return;
     setKaiLoading(true);
     try {
-      const currentProj = filter === 'alle' ? 'SurKAi' : filter;
+      const currentProj = filter === 'alle' ? 'KAiOSS' : filter;
       
       // Fetch relevant wiki context
       const wikiRes = await db.query(

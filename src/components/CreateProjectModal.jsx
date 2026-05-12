@@ -27,7 +27,7 @@ export default function CreateProjectModal({ isOpen, onClose, onNotify, onCreate
 
     setLoading(true);
     try {
-      const [res] = await db.query('CREATE projekt SET $data', { 
+      const [res] = await db.query('CREATE projekt CONTENT $data', { 
         data: {
           ...formData,
           tags: [],

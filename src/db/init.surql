@@ -1,5 +1,5 @@
--- SurKAi v1.3 Database Initialization
--- Namespace: kanban | Database: projects
+-- KAiOSS v1.4 Database Initialization
+-- Namespace: kaioss | Database: kaioss
 
 -- 1. Tables & Indices (Implicitly created on first insert, but good to define)
 DEFINE TABLE projekt SCHEMAFULL;

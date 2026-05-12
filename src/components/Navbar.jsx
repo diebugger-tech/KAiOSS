@@ -24,11 +24,12 @@ export default function Navbar({ theme, toggleTheme, dbStatus, onWikiOpen, onTod
     }}>
       <div>
         <h1 className="logo-text" style={{ margin: 0, fontSize: '1.8rem', letterSpacing: '2px' }}>
-          <span className="sur">SUR</span>
-          <span className="ban">K</span>
-          <span className="ai">AI</span>
+          <span className="sur">KAi</span>
+          <span className="ban">OSS</span>
         </h1>
-        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>sur·k·ai = surreal + kanban + ai</div>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
+          AI-native project hub // v1.4.0
+        </div>
       </div>
       <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '0.4rem' }}>

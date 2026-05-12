@@ -1,19 +1,9 @@
+// KAiOSS — KanbanColumn
+// Enthält den Ghost Drop Indicator v1.4
+
 import React from 'react';
 import KanbanCard from './KanbanCard';
 import BacklogDashboard from './BacklogDashboard';
-
-// Ghost slide-in animation — injected once into the document head
-if (typeof document !== 'undefined' && !document.getElementById('ghost-keyframes')) {
-  const style = document.createElement('style');
-  style.id = 'ghost-keyframes';
-  style.textContent = `
-    @keyframes ghostSlideIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  `;
-  document.head.appendChild(style);
-}
 
 const ghostStyle = {
   height: '80px',
@@ -22,7 +12,6 @@ const ghostStyle = {
   background: 'rgba(29,158,117,0.06)',
   margin: '4px 0',
   transition: 'all 0.15s ease',
-  animation: 'ghostSlideIn 0.1s ease',
   pointerEvents: 'none',
 };
 
@@ -49,6 +38,7 @@ export default function KanbanColumn({
       borderRadius: '4px',
       padding: '1rem',
       minHeight: '600px',
+      display: 'flex',
       flexDirection: 'column',
       boxShadow: isOver ? `0 0 15px ${column.color}` : 'none',
       borderColor: isOver ? column.color : 'var(--border)',
