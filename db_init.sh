@@ -1,11 +1,11 @@
 #!/bin/bash
 # SurrealDB Initialization for Kanban Board
-# Namespace: pflanternen, Database: projekte
+# Namespace: kaioss, Database: kaioss
 
 # Configuration
 ENDPOINT="http://localhost:8000/sql"
-NS="pflanternen"
-DB="projekte"
+NS="kaioss"
+DB="kaioss"
 AUTH="root:root"
 
 echo "Initializing SurrealDB projects..."
@@ -15,7 +15,7 @@ run_sql() {
   curl -s -X POST \
     -u "root:root" \
     -H "Accept: application/json" \
-    -d "USE NS pflanternen DB projekte; $1" \
+    -d "USE NS kaioss DB kaioss; $1" \
     "http://localhost:8000/sql"
 }
 
