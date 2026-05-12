@@ -1,0 +1,85 @@
+.obsidian-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+  display: flex; justifyContent: center; alignItems: flex-start;
+  padding-top: 10vh; z-index: 2100;
+}
+
+.obsidian-modal {
+  width: 100%; max-width: 560px;
+  background-color: var(--bg-primary); border: 1px solid var(--border);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6); padding: 2rem;
+  font-family: 'JetBrains Mono', monospace; position: relative;
+  max-height: 80vh; overflow-y: auto;
+}
+
+.obsidian-header {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  margin-bottom: 1.5rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.obsidian-close-btn {
+  position: absolute; top: 1rem; right: 1rem;
+  background: transparent; border: none;
+  color: var(--text-muted); cursor: pointer; font-family: inherit;
+}
+
+.obsidian-section { margin-bottom: 1.25rem; }
+
+.obsidian-label {
+  font-size: 0.7rem; color: var(--text-muted);
+  letter-spacing: 1px; margin-bottom: 0.4rem;
+}
+
+.obsidian-input {
+  width: 100%; padding: 0.6rem;
+  background-color: var(--bg-secondary); color: var(--accent-green);
+  border: 1px solid var(--border); font-family: inherit;
+  font-size: 0.85rem; outline: none; box-sizing: border-box;
+}
+
+.obsidian-sync-btn {
+  width: 100%; padding: 0.9rem;
+  background-color: rgba(0,255,170,0.08);
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green); font-family: inherit;
+  font-size: 0.9rem; letter-spacing: 0.5px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.obsidian-sync-btn:hover:not(:disabled) {
+  background-color: rgba(0,255,170,0.15);
+  box-shadow: 0 0 15px rgba(0,255,170,0.1);
+}
+
+.obsidian-progress-bar {
+  height: 4px; background-color: rgba(255,255,255,0.05);
+  border-radius: 2px; overflow: hidden;
+}
+
+.obsidian-progress-fill {
+  height: 100%; background-color: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+  transition: width 0.3s ease;
+}
+
+.obsidian-progress-stats {
+  display: flex; gap: 1rem;
+  font-size: 0.7rem; color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.obsidian-warning {
+  padding: 0.8rem; background-color: rgba(255,68,68,0.1);
+  border: 1px solid var(--error); color: var(--error);
+  font-size: 0.8rem; margin-bottom: 1rem;
+}
+
+.obsidian-log-box {
+  margin-top: 1rem; max-height: 200px; overflow-y: auto;
+  background-color: var(--bg-secondary); padding: 0.8rem;
+  border: 1px solid var(--border); font-size: 0.7rem;
+  line-height: 1.6;
+}
