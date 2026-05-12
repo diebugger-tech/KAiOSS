@@ -26,8 +26,8 @@ db-init: ## Initialisiert Demo-Daten in SurrealDB
 	@echo "📦 Lade Demo-Daten..."
 	surreal sql --endpoint ws://localhost:8000 \
 		--username root --password root \
-		--namespace kanban --database projects \
-		--hide-welcome <<< "CREATE task:1 SET name='My Task', status='backlog', desc='Example task', tags=['#demo'], icon='📋', updated=time::now();"
+		--namespace kaioss --database kaioss \
+		--hide-welcome <<< "CREATE projekt:demo SET name='Demo Projekt', status='backlog', desc='Beispiel Projekt', tags=['#demo'], icon='📋', updated=time::now();"
 	@echo "✅ Demo-Daten geladen"
 
 status: ## Zeigt Status von SurrealDB und Dev-Server
@@ -39,6 +39,6 @@ db-backup:
 	@echo "Creating backup..."
 	surreal export --conn http://localhost:8000 \
 	  --user root --pass root \
-	  --ns kanban --db projects \
-	  backup_$(shell date +%Y%m%d_%H%M%S).surql
+	  --ns kaioss --db kaioss \
+	  kaioss_backup_$(shell date +%Y%m%d_%H%M%S).surql
 	@echo "Backup done."
