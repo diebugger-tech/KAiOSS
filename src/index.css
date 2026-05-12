@@ -61,17 +61,31 @@ input, textarea, select {
 
 /* KAIOSS LOGO STYLING */
 .logo-text {
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: default;
+  display: inline-flex;
 }
 
-.logo-text .sur { color: var(--accent-green); transition: color 0.3s ease; }
-.logo-text .ban { color: var(--accent-green); transition: color 0.3s ease; }
-.logo-text .ai { color: var(--accent-green); transition: color 0.3s ease; }
+.logo-text span {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-.logo-text:hover .sur { color: #ff00a0; text-shadow: 0 0 8px rgba(255, 0, 160, 0.4); }
-.logo-text:hover .ban { color: #61dafb; text-shadow: 0 0 8px rgba(97, 218, 251, 0.4); }
-.logo-text:hover .ai { color: #ffcc00; text-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
+/* Default state: All green or theme-specific */
+.logo-text .k-part, .logo-text .ai-part, .logo-text .os-part, .logo-text .s-part {
+  color: var(--accent-green);
+}
+
+/* Hover state: Distinct colors for K + Ai + OS + S */
+.logo-text:hover .k-part { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); transform: translateY(-2px); }
+.logo-text:hover .ai-part { color: #bb86fc; text-shadow: 0 0 15px rgba(187, 134, 252, 0.8); transform: translateY(-2px); }
+.logo-text:hover .os-part { color: #00ff00; text-shadow: 0 0 15px rgba(0, 255, 0, 0.8); transform: translateY(-2px); }
+.logo-text:hover .s-part { color: #ff00a0; text-shadow: 0 0 15px rgba(255, 0, 160, 0.8); transform: translateY(-2px); }
+
+/* Subtitle highlight on logo hover */
+.logo-text:hover + .logo-subtitle {
+  color: var(--accent-blue);
+  opacity: 1;
+}
 
 /* TOAST NOTIFICATIONS */
 .toast-container {

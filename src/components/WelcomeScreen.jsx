@@ -99,7 +99,12 @@ export default function WelcomeScreen({ onStart, dbStatus }) {
   return (
     <div style={styles.container}>
       <div style={styles.logoContainer} className="welcome-logo-container">
-        <div style={styles.logo}>KAiOSS</div>
+        <div style={styles.logo} className="logo-text">
+          <span className="k-part">K</span>
+          <span className="ai-part">Ai</span>
+          <span className="os-part">OS</span>
+          <span className="s-part">S</span>
+        </div>
         <div style={styles.version}>v1.4.0</div>
       </div>
 
