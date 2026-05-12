@@ -1,6 +1,6 @@
 -- ============================================================
--- SurKAi — SurrealDB Server-Side Events Setup
--- Run once: surreal import --conn ws://localhost:8000 --ns surkanban --db surkanban --user root --pass root scripts/setup-db-events.surql
+-- KAiOSS — SurrealDB Server-Side Events Setup
+-- Run once: surreal import --conn ws://localhost:8000 --ns kaioss --db kaioss --user root --pass root scripts/setup-db-events.surql
 -- ============================================================
 
 -- Auto-update timestamp on every UPDATE (removes need to set it in frontend)

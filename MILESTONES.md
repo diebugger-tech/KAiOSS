@@ -40,7 +40,7 @@
 ### Obsidian Sync
 - [x] Obsidian Vault → SurrealDB Sync Button (`🔮` in Navbar)
 - [x] File System Access API (kein Backend nötig)
-- [x] `#surkai` Tag-Filter (konfigurierbar)
+- [x] `#kaioss` Tag-Filter (konfigurierbar)
 - [x] UPSERT (kein Duplikat-Problem)
 - [x] Progress-Bar + Live-Log
 
@@ -102,9 +102,9 @@
 ---
 
 ## Rebranding SurKAi → KAiOSS
-- [ ] App-Titel + Logo im Frontend ändern
-- [ ] Terminal Log: `> kaioss::ready`
-- [ ] DB Namespace: `kaioss`
-- [ ] Backup-Dateiname: `kaioss_backup.surql`
-- [ ] GitHub Repo umbenennen (surbanai → kaioss)
+- [x] App-Titel + Logo im Frontend ändern
+- [x] Terminal Log: `> kaioss::ready`
+- [x] DB Namespace: `kaioss`
+- [x] Backup-Dateiname: `kaioss_backup.surql`
+- [x] GitHub Repo umbenennen (surbanai → kaioss)
 - [ ] SurrealDB Einreichung aktualisieren

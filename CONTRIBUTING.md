@@ -1,4 +1,4 @@
-# Contributing to SurKAi
+# Contributing to KAiOSS
 
 First off, thanks for taking the time to contribute! 🎉
 
