@@ -1,40 +1,91 @@
+# ============================================
+# KAiOSS — .gitignore
+# React + Vite + SurrealDB + Multi-Model KAi
+# ============================================
+
 # Dependencies
 node_modules/
 
 # Build
 dist/
+build/
 
 # Environment
 .env
 .env.local
 .env.production
+.env.*.local
 
-# SurrealDB local data
+# ============================================
+# KAiOSS SPEZIFISCH
+# ============================================
+
+# API Keys Export — NIEMALS ins Repo!
+kaioss_keys.json
+*_keys.json
+
+# KAiOSS Backups
+kaioss_backup*.surql
+backup_*.surql
+*.surql.bak
+
+# Obsidian Bridge
+.obsidian/
+obsidian-sync-temp/
+
+# Goose Agent Session-Daten
+.goose/
+
+# OpenCode Session-Daten
+.opencode/
+
+# ============================================
+# SURREALDB
+# ============================================
 *.db
 *.surrealkv
+surreal.db/
 
-# Vite cache
+# ============================================
+# VITE / NODE
+# ============================================
 .vite/
+.npm/
+.yarn/
+yarn-error.log*
+pnpm-debug.log*
+npm-debug.log*
+*.log
 
+# ============================================
 # OS
+# ============================================
 .DS_Store
 Thumbs.db
+desktop.ini
+*~
 
+# ============================================
 # IDE
+# ============================================
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Logs
-*.log
-npm-debug.log*
-
-# Backups & Temp
+# ============================================
+# TEMP & DEBUG
+# ============================================
 *.bak
-backup_*.surql
-knowledge/
+*.test.local.js
+debug-*.json
 __pycache__/
 *.pyc
 system-check.sh
+
+# ============================================
+# PROJEKT-SPEZIFISCH (behalten wie bisher)
+# ============================================
+knowledge/
 docs/review-queue.md
 history.txt
-# awesome-surreal/ (Removed from ignore to allow KAiOSS submission commit)
