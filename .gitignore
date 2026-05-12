@@ -34,8 +34,7 @@ backup_*.surql
 knowledge/
 __pycache__/
 *.pyc
-awesome-surreal/
 system-check.sh
 docs/review-queue.md
 history.txt
-awesome-surreal/
+# awesome-surreal/ (Removed from ignore to allow KAiOSS submission commit)
