@@ -1,11 +1,48 @@
 // KAiOSS — KanbanCard
 // Mit data-card Attribut für Ghost Calculation v1.4
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import db from '../lib/db';
 
-export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, wikiStats }) {
-  const stats = wikiStats[project.name] || { done: 0, total: 0 };
-  const progress = stats.total > 0 ? Math.round((stats.done / stats.total) * 100) : 0;
+export default function KanbanCard({ project, onDragStart, onDragEnd, onClick }) {
+  const [progress, setProgress] = useState(0);
+
+  const loadProgress = async (projektName) => {
+    if (!projektName) return 0;
+    try {
+      const result = await db.query(
+        `SELECT
+          count() as total,
+          count(status = 'done' OR status = 'erledigt') as done
+        FROM wiki
+        WHERE projekt = $name AND typ = 'todo'`,
+        { name: projektName }
+      );
+      const data = result[0]?.[0] || { total: 0, done: 0 };
+      return data.total > 0 ? Math.round((data.done / data.total) * 100) : 0;
+    } catch (err) {
+      console.warn('[Pulse] Error loading progress:', err);
+      return 0;
+    }
+  };
+
+  useEffect(() => {
+    if (!project?.name) return;
+
+    // Initial load
+    loadProgress(project.name).then(setProgress);
+
+    // Live Update subscription
+    let liveId = null;
+    db.live(
+      `SELECT * FROM wiki WHERE projekt = '${project.name}' AND typ = 'todo'`,
+      () => loadProgress(project.name).then(setProgress)
+    ).then(id => { liveId = id; });
+
+    return () => {
+      if (liveId) db.kill(liveId).catch(() => {});
+    };
+  }, [project?.name]);
 
   const styles = {
     card: {
@@ -47,26 +84,29 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
       marginTop: '1rem',
       display: 'flex',
       flexDirection: 'column',
-      gap: '0.3rem'
+      gap: '0.4rem'
+    },
+    pulseText: {
+      fontSize: '0.65rem',
+      color: '#1D9E75',
+      fontFamily: 'monospace',
+      display: 'flex',
+      justifyContent: 'space-between',
+      opacity: 0.8
     },
     pulseBar: {
       height: '4px',
-      backgroundColor: 'var(--bg-tertiary)',
+      backgroundColor: 'rgba(255,255,255,0.05)',
       borderRadius: '2px',
       overflow: 'hidden'
     },
     pulseFill: {
       height: '100%',
-      backgroundColor: 'var(--accent-green)',
-      width: `${progress}%`,
-      transition: 'width 0.5s ease-out',
-      boxShadow: '0 0 10px rgba(0, 255, 170, 0.4)'
-    },
-    pulseText: {
-      fontSize: '0.6rem',
-      color: 'var(--text-muted)',
-      display: 'flex',
-      justifyContent: 'space-between'
+      width: progress + '%',
+      background: progress === 100 ? '#1D9E75' :
+                  progress > 50  ? '#EF9F27' : '#378ADD',
+      transition: 'width 0.5s ease',
+      boxShadow: `0 0 10px ${progress === 100 ? 'rgba(29, 158, 117, 0.4)' : 'transparent'}`
     },
     tagsContainer: {
       display: 'flex',
@@ -102,8 +142,8 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, w
       
       <div style={styles.pulseContainer}>
         <div style={styles.pulseText}>
-          <span>PROJECT_PULSE</span>
-          <span>{progress}%</span>
+          <span>{'> PROJECT_PULSE'}</span>
+          <span>{progress + '%'}</span>
         </div>
         <div style={styles.pulseBar}>
           <div style={styles.pulseFill} />
