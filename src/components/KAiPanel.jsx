@@ -143,6 +143,15 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // ESC shortcut to close (works even when input is focused)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   // Ollama Status prüfen
   useEffect(() => {
     const checkOllama = async () => {
@@ -410,12 +419,29 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
 
           <button
             onClick={onClose}
-            onMouseOver={(e) => { e.currentTarget.style.color = '#E24B4A'; }}
-            onMouseOut={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; }}
-            style={styles.closeBtn}
+            onMouseOver={(e) => { 
+              e.currentTarget.style.color = '#ffffff';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)';
+            }}
+            onMouseOut={(e) => { 
+              e.currentTarget.style.color = '#e0e0e0';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+            }}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              color: '#e0e0e0',
+              borderRadius: '4px',
+              padding: '2px 8px',
+              cursor: 'pointer',
+              fontFamily: 'monospace',
+              fontSize: '11px',
+              marginLeft: '8px',
+              transition: 'all 0.2s ease'
+            }}
             title="Schließen (ESC)"
           >
-            ✕
+            [ ESC_CLOSE ]
           </button>
         </div>
       </div>
