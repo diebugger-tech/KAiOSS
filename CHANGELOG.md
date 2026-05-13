@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.4.0] - 2026-05-12
 ### Added
-- Global Rebranding: Surbanai/SurKAi → **KAiOSS**
+- Finalized KAiOSS Brand Identity and terminal-centric UI design
 - Interactive Multi-Colored KAiOSS Logo with segment-hover effects
 - KAi AI Assistant (Ollama integration with streaming)
 - Obsidian Vault → SurrealDB Wiki Sync (File System Access API + Legacy Fallback)
@@ -32,14 +32,14 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.0] - 2026-05-10
 ### Added
-- Dark/Light Theme Toggle (thanks @Keerthi7423)
+- Dark/Light Theme Toggle
 - localStorage theme persistence
-- SurKAi branding with color-coded logo
-- sur·ban·ai name explanation in header and footer
+- Initial KAiOSS Terminal aesthetic
+- Project manifest support
 
 ### Changed
-- Renamed project from surreal-board to SurKAi
-- SurKAi = surreal + kanban + ai
+- Refactored component architecture
+- Standardized UI color palette
 
 ## [1.1.0] - 2026-05-10
 - DetailPanel mit Inline-Editing
