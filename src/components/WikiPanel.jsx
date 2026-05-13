@@ -6,6 +6,139 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Mermaid from './Mermaid';
 
+const styles = {
+  overlay: {
+    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'var(--bg-overlay)', zIndex: 2000,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem'
+  },
+  container: {
+    width: '100%', maxWidth: '1000px', height: '85vh',
+    backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)',
+    boxShadow: '0 0 50px rgba(0,0,0,0.5)', display: 'flex', position: 'relative',
+    overflow: 'hidden'
+  },
+  sidebar: {
+    width: '260px', borderRight: '1px solid var(--border)', padding: '1.5rem',
+    backgroundColor: 'var(--bg-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem',
+    overflowY: 'auto'
+  },
+  main: {
+    flex: 1, padding: '3rem', overflowY: 'auto', color: 'var(--text-primary)',
+    backgroundColor: 'var(--bg-primary)'
+  },
+  manifestSidebar: {
+    marginTop: '2rem',
+    padding: '0.5rem',
+    backgroundColor: 'rgba(0, 255, 170, 0.02)',
+    border: '1px solid var(--border)',
+    borderRadius: '2px',
+    fontSize: '0.7rem'
+  },
+  manifestRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '0.3rem',
+    gap: '0.5rem'
+  },
+  manifestKey: {
+    color: 'var(--text-muted)',
+    fontWeight: 'bold'
+  },
+  snippet: {
+    backgroundColor: 'var(--bg-tertiary)',
+    padding: '1px 3px',
+    borderRadius: '2px',
+    color: 'var(--accent-green)',
+    fontSize: '0.65rem'
+  },
+  navItem: (active) => ({
+    padding: '0.8rem 1rem', cursor: 'pointer', borderLeft: '3px solid transparent',
+    color: active ? 'var(--accent-green)' : 'var(--text-secondary)',
+    backgroundColor: active ? 'rgba(0, 255, 170, 0.05)' : 'transparent',
+    borderColor: active ? 'var(--accent-green)' : 'transparent',
+    fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.7rem',
+    transition: 'all 0.2s',
+    marginBottom: '2px'
+  }),
+  closeBtn: {
+    position: 'absolute', top: '1rem', right: '1rem',
+    background: 'transparent', border: 'none', color: 'var(--text-muted)',
+    fontSize: '1rem', cursor: 'pointer', fontFamily: 'monospace',
+    zIndex: 10
+  },
+  projectSelect: {
+    width: '100%', padding: '0.6rem', backgroundColor: 'var(--bg-primary)',
+    border: '1px solid var(--border)', color: 'var(--accent-green)',
+    fontFamily: 'monospace', fontSize: '0.8rem', marginBottom: '1.5rem',
+    outline: 'none'
+  },
+  table: {
+    width: '100%', borderCollapse: 'collapse', marginTop: '1rem', fontSize: '0.85rem'
+  },
+  th: {
+    textAlign: 'left', borderBottom: '2px solid var(--border)', padding: '0.8rem', color: 'var(--accent-green)'
+  },
+  td: {
+    borderBottom: '1px solid var(--border)', padding: '0.8rem'
+  },
+  entry: {
+    padding: '1.5rem', backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+    borderRadius: '4px',
+    transition: 'border-color 0.2s',
+  },
+  highlighted: {
+    padding: '1.5rem', backgroundColor: 'rgba(29,158,117,0.07)',
+    border: '1px solid var(--accent-green)',
+    borderRadius: '4px',
+    boxShadow: '0 0 12px rgba(29,158,117,0.18)',
+    transition: 'border-color 0.2s',
+  },
+  searchInput: {
+    width: '100%', padding: '0.6rem', backgroundColor: 'var(--bg-primary)',
+    border: '1px solid var(--border)', color: 'var(--text-primary)',
+    fontFamily: 'monospace', fontSize: '0.75rem', outline: 'none'
+  },
+  newBtn: {
+    width: '100%', padding: '0.6rem', backgroundColor: 'rgba(0, 255, 170, 0.1)',
+    border: '1px solid var(--accent-green)', color: 'var(--accent-green)',
+    fontFamily: 'monospace', fontSize: '0.75rem', marginBottom: '1rem',
+    cursor: 'pointer', transition: 'all 0.2s'
+  },
+  editIconBtn: {
+    background: 'transparent', border: 'none', color: 'var(--text-muted)',
+    cursor: 'pointer', fontSize: '1rem', padding: '0 0.5rem', transition: 'color 0.2s'
+  },
+  editorContainer: {
+    display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%'
+  },
+  editorHeader: {
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem'
+  },
+  editorTitleInput: {
+    width: '100%', backgroundColor: 'var(--bg-secondary)', color: 'var(--accent-green)',
+    border: '1px solid var(--border)', padding: '0.8rem', fontFamily: 'inherit', fontSize: '1.1rem',
+    outline: 'none'
+  },
+  editorTextarea: {
+    flex: 1, backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)',
+    border: '1px solid var(--border)', padding: '1rem', fontFamily: 'inherit',
+    fontSize: '0.9rem', minHeight: '400px', resize: 'none', outline: 'none',
+    lineHeight: '1.6'
+  },
+  editorFooter: {
+    display: 'flex', gap: '1rem', marginTop: '0.5rem'
+  },
+  submitBtn: {
+    padding: '0.8rem 1.5rem', border: 'none', color: 'var(--bg-primary)',
+    fontWeight: 'bold', cursor: 'pointer', fontFamily: 'inherit', letterSpacing: '1px'
+  },
+  input: {
+    backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border)',
+    padding: '0.5rem', fontFamily: 'inherit'
+  }
+};
+
 export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
   const [activePage, setActivePage] = useState('doc');
   const [entries, setEntries] = useState([]);
@@ -435,139 +568,6 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
         )}
       </div>
     );
-  };
-
-  const styles = {
-    overlay: {
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'var(--bg-overlay)', zIndex: 2000,
-      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem'
-    },
-    container: {
-      width: '100%', maxWidth: '1000px', height: '85vh',
-      backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)',
-      boxShadow: '0 0 50px rgba(0,0,0,0.5)', display: 'flex', position: 'relative',
-      overflow: 'hidden'
-    },
-    sidebar: {
-      width: '260px', borderRight: '1px solid var(--border)', padding: '1.5rem',
-      backgroundColor: 'var(--bg-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem',
-      overflowY: 'auto'
-    },
-    main: {
-      flex: 1, padding: '3rem', overflowY: 'auto', color: 'var(--text-primary)',
-      backgroundColor: 'var(--bg-primary)'
-    },
-    manifestSidebar: {
-      marginTop: '2rem',
-      padding: '0.5rem',
-      backgroundColor: 'rgba(0, 255, 170, 0.02)',
-      border: '1px solid var(--border)',
-      borderRadius: '2px',
-      fontSize: '0.7rem'
-    },
-    manifestRow: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: '0.3rem',
-      gap: '0.5rem'
-    },
-    manifestKey: {
-      color: 'var(--text-muted)',
-      fontWeight: 'bold'
-    },
-    snippet: {
-      backgroundColor: 'var(--bg-tertiary)',
-      padding: '1px 3px',
-      borderRadius: '2px',
-      color: 'var(--accent-green)',
-      fontSize: '0.65rem'
-    },
-    navItem: (active) => ({
-      padding: '0.8rem 1rem', cursor: 'pointer', borderLeft: '3px solid transparent',
-      color: active ? 'var(--accent-green)' : 'var(--text-secondary)',
-      backgroundColor: active ? 'rgba(0, 255, 170, 0.05)' : 'transparent',
-      borderColor: active ? 'var(--accent-green)' : 'transparent',
-      fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.7rem',
-      transition: 'all 0.2s',
-      marginBottom: '2px'
-    }),
-    closeBtn: {
-      position: 'absolute', top: '1rem', right: '1rem',
-      background: 'transparent', border: 'none', color: 'var(--text-muted)',
-      fontSize: '1rem', cursor: 'pointer', fontFamily: 'monospace',
-      zIndex: 10
-    },
-    projectSelect: {
-      width: '100%', padding: '0.6rem', backgroundColor: 'var(--bg-primary)',
-      border: '1px solid var(--border)', color: 'var(--accent-green)',
-      fontFamily: 'monospace', fontSize: '0.8rem', marginBottom: '1.5rem',
-      outline: 'none'
-    },
-    table: {
-      width: '100%', borderCollapse: 'collapse', marginTop: '1rem', fontSize: '0.85rem'
-    },
-    th: {
-      textAlign: 'left', borderBottom: '2px solid var(--border)', padding: '0.8rem', color: 'var(--accent-green)'
-    },
-    td: {
-      borderBottom: '1px solid var(--border)', padding: '0.8rem'
-    },
-    entry: {
-      padding: '1.5rem', backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
-      borderRadius: '4px',
-      transition: 'border-color 0.2s',
-    },
-    highlighted: {
-      padding: '1.5rem', backgroundColor: 'rgba(29,158,117,0.07)',
-      border: '1px solid var(--accent-green)',
-      borderRadius: '4px',
-      boxShadow: '0 0 12px rgba(29,158,117,0.18)',
-      transition: 'border-color 0.2s',
-    },
-    searchInput: {
-      width: '100%', padding: '0.6rem', backgroundColor: 'var(--bg-primary)',
-      border: '1px solid var(--border)', color: 'var(--text-primary)',
-      fontFamily: 'monospace', fontSize: '0.75rem', outline: 'none'
-    },
-    newBtn: {
-      width: '100%', padding: '0.6rem', backgroundColor: 'rgba(0, 255, 170, 0.1)',
-      border: '1px solid var(--accent-green)', color: 'var(--accent-green)',
-      fontFamily: 'monospace', fontSize: '0.75rem', marginBottom: '1rem',
-      cursor: 'pointer', transition: 'all 0.2s'
-    },
-    editIconBtn: {
-      background: 'transparent', border: 'none', color: 'var(--text-muted)',
-      cursor: 'pointer', fontSize: '1rem', padding: '0 0.5rem', transition: 'color 0.2s'
-    },
-    editorContainer: {
-      display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%'
-    },
-    editorHeader: {
-      display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem'
-    },
-    editorTitleInput: {
-      width: '100%', backgroundColor: 'var(--bg-secondary)', color: 'var(--accent-green)',
-      border: '1px solid var(--border)', padding: '0.8rem', fontFamily: 'inherit', fontSize: '1.1rem',
-      outline: 'none'
-    },
-    editorTextarea: {
-      flex: 1, backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)',
-      border: '1px solid var(--border)', padding: '1rem', fontFamily: 'inherit',
-      fontSize: '0.9rem', minHeight: '400px', resize: 'none', outline: 'none',
-      lineHeight: '1.6'
-    },
-    editorFooter: {
-      display: 'flex', gap: '1rem', marginTop: '0.5rem'
-    },
-    submitBtn: {
-      padding: '0.8rem 1.5rem', border: 'none', color: 'var(--bg-primary)',
-      fontWeight: 'bold', cursor: 'pointer', fontFamily: 'inherit', letterSpacing: '1px'
-    },
-    input: {
-      backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border)',
-      padding: '0.5rem', fontFamily: 'inherit'
-    }
   };
 
   return (
