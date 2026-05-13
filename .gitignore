@@ -24,9 +24,9 @@ build/
 kaioss_keys.json
 *_keys.json
 
-# KAiOSS Backups
-kaioss_backup*.surql
-backup_*.surql
+# KAiOSS Backups — alle .surql im Root-Verzeichnis ignorieren
+# (src/db/*.surql bleiben im Repo)
+/*.surql
 *.surql.bak
 
 # Obsidian Bridge
@@ -90,4 +90,4 @@ system-check.sh
 knowledge/
 docs/review-queue.md
 history.txt
-backup.surql
+# (bereits durch /*.surql abgedeckt)
