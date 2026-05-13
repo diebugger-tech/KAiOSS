@@ -14,10 +14,29 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
   const [dsgvoGesehenKlassen, setDsgvoGesehenKlassen] = useState(new Set(['green']));
   const messagesEndRef = useRef(null);
 
+  // Hover handlers for close button
+  const handleMouseOver = (e) => {
+    e.currentTarget.style.color = '#ffffff';
+    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)';
+  };
+  const handleMouseOut = (e) => {
+    e.currentTarget.style.color = '#e0e0e0';
+    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+  };
+
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // ESC shortcut to close
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   // Ollama Status prüfen
   useEffect(() => {
@@ -326,17 +345,20 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
       cursor: 'pointer' 
     },
     closeBtn: {
-      fontSize: '20px',
+      fontSize: '14px',
       lineHeight: '1',
-      background: 'none',
-      border: 'none',
-      color: 'var(--text-secondary)',
+      background: 'rgba(255, 255, 255, 0.08)',
+      border: '1px solid rgba(255, 255, 255, 0.15)',
+      color: '#e0e0e0',
       cursor: 'pointer',
-      padding: '0 4px',
+      padding: '4px 10px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: 'color 0.2s'
+      borderRadius: '4px',
+      transition: 'all 0.2s ease',
+      marginLeft: '8px',
+      fontFamily: 'monospace'
     }
   };
 
@@ -390,7 +412,24 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
             </optgroup>
           </select>
           
-          <button onClick={onClose} style={styles.closeBtn} title="Schließen (ESC)">×</button>
+          <button
+            onClick={onClose}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              color: '#e0e0e0',
+              borderRadius: '4px',
+              padding: '2px 8px',
+              cursor: 'pointer',
+              fontFamily: 'monospace',
+              fontSize: '11px',
+              marginLeft: '8px'
+            }}
+          >
+            [ ESC_CLOSE ]
+          </button>
         </div>
       </div>
 

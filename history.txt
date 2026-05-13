@@ -1,57 +1,4 @@
 #V2
-UPDATE projekt:guterprompt SET name='GuterPrompt', stack='PHP 8.3 / SvelteKit / Flarum', desc='Community Prompt-Bewertungsmodell', icon='📝', status='in-progress', cmd_start='diebugger', cmd_stop='pkill -f npm', updated=time::now();
-UPDATE projekt:pflanternen SET name='Pflanternen', stack='Bash / SurrealDB / NixOS', desc='NixOS KI-Automatisierung Framework', icon='🌿', status='in-progress', cmd_start='~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop='', updated=time::now();
-UPDATE projekt:surbanai SET name='surbanai', stack='React / SurrealDB / Vite', desc='Realtime Kanban Board', icon='📋', status='in-progress', cmd_start='make dev', cmd_stop='make stop', updated=time::now();
-DEFINE NAMESPACE IF NOT EXISTS kanban;
-USE NAMESPACE kanban;
-DEFINE DATABASE IF NOT EXISTS projects;
-DEFINE NAMESPACE IF NOT EXISTS obsidian;
-USE NAMESPACE obsidian;
-DEFINE DATABASE IF NOT EXISTS vault;
-SELECT * FROM projekt;
-[[{ cmd_start: 'agent', cmd_stop: 'exit', desc: 'Multi-Agent Framework', icon: '🤖', id: projekt:agentsystem, name: 'Agenten-System', stack: 'Claude / Goose / Pi', status: 'backlog', tags: ['#AI', '#Orchestration', '#LLM'], updated: d'2026-05-10T14:39:29.707205773Z' }, { cmd_start: 'make start', cmd_stop: 'make stop', desc: 'B2B SaaS Kabelmanagement & HV-Testing', icon: '🚀', id: projekt:cabellistpro, make_cmd: 'cd ~/Projekte/aktiv/CabellistPro && nix-shell && overmind start', name: 'CabellistPro', stack: 'FastAPI / Python / MySQL', status: 'done', tags: ['#SaaS', '#Production'], updated: d'2026-05-10T15:37:37.633000889Z' }, { cmd_start: 'diebugger', cmd_stop: 'pkill -f npm', desc: 'Community Prompt-Bewertungsmodell', icon: '📝', id: projekt:guterprompt, make_cmd: 'cd ~/Projekte/aktiv/GuterPrompt && npm run dev', name: 'GuterPrompt', stack: 'PHP 8.3 / SvelteKit / Flarum', status: 'in-progress', tags: ['#Research', '#PHP', '#AI'], updated: d'2026-05-10T15:37:40.738850388Z' }, { cmd_start: 'nix-up', cmd_stop: 'none', desc: 'Hardened AI Operating System environment', icon: '❄️', id: projekt:nixos_ki_os, name: 'NixOS KI-OS', stack: 'jail.nix / GitNexus / MCP', status: 'done', tags: ['#Security', '#NixOS', '#MCP'], updated: d'2026-05-10T14:39:29.707238344Z' }, { cmd_start: '~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop: '', desc: 'NixOS KI-Automatisierung Framework', icon: '🌿', id: projekt:pflanternen, name: 'Pflanternen', stack: 'Bash / SurrealDB / NixOS', status: 'in-progress', tags: ['#NixOS', '#Automation', '#SurrealDB'], updated: d'2026-05-10T15:37:43.874382007Z' }, { cmd_start: 'make dev', cmd_stop: 'make stop', desc: 'Realtime Kanban Board', icon: '📋', id: projekt:surbanai, name: 'surbanai', stack: 'React / SurrealDB / Vite', status: 'in-progress', tags: ['#React', '#SurrealDB', '#OpenSource'], updated: d'2026-05-10T15:37:47.011588398Z' }, { cmd_start: '3dn', cmd_stop: 'pkill -f cargo', desc: '3D Terminal für Cosmic Desktop', icon: '🖥️', id: projekt:terminal, make_cmd: '3dn', name: '3DNTerminal', stack: 'Rust / Bevy / Wayland', status: 'in-progress', tags: ['#Rust', '#Wayland', '#Graphics'], updated: d'2026-05-10T15:37:37.085310589Z' }]]
-CREATE projekt:cabellistpro SET name='CabellistPro', stack='FastAPI / Python / MySQL', desc='B2B SaaS Kabelmanagement', icon='🚀', status='done', tags=['#SaaS','#Production'], cmd_start='make start', cmd_stop='make stop', updated=time::now();
-CREATE projekt:guterprompt SET name='GuterPrompt', stack='PHP 8.3 / SvelteKit / Flarum', desc='Community Prompt-Bewertungsmodell', icon='📝', status='in-progress', tags=['#Research','#PHP','#AI'], cmd_start='diebugger', cmd_stop='pkill -f npm', updated=time::now();
-CREATE projekt:terminal SET name='3DNTerminal', stack='Rust / Bevy / Wayland', desc='3D Terminal für Cosmic Desktop', icon='🖥️', status='in-progress', tags=['#Rust','#Graphics'], cmd_start='3dn', cmd_stop='pkill -f cargo', updated=time::now();
-CREATE projekt:pflanternen SET name='Pflanternen', stack='Bash / SurrealDB / NixOS', desc='NixOS KI-Automatisierung Framework', icon='🌿', status='in-progress', tags=['#NixOS','#SurrealDB'], cmd_start='~/Projekte/aktiv/Pflanternen/bin/diagnose.sh', cmd_stop='', updated=time::now();
-CREATE projekt:agentsystem SET name='Agenten-System', stack='Claude / goose / pi', desc='Multi-Agent Framework', icon='🤖', status='backlog', tags=['#AI','#LLM'], cmd_start='agent', cmd_stop='exit', updated=time::now();
-CREATE projekt:nixos SET name='NixOS KI-OS', stack='jail.nix / GitNexus / MCP', desc='KI-Betriebssystem', icon='❄️', status='done', tags=['#NixOS','#MCP'], cmd_start='nix-up', cmd_stop='', updated=time::now();
-CREATE projekt:surbanai SET name='surbanai', stack='React / SurrealDB / Vite', desc='Realtime Kanban Board', icon='📋', status='in-progress', tags=['#React','#SurrealDB'], cmd_start='make dev', cmd_stop='make stop', updated=time::now();
-INFO FOR ROOT;
-SELECT count() FROM projekt GROUP ALL;
-DEFINE TABLE wiki SCHEMAFULL;
-DEFINE FIELD projekt   ON wiki TYPE string;
-DEFINE FIELD typ       ON wiki TYPE string;
-DEFINE FIELD titel     ON wiki TYPE string;
-DEFINE FIELD inhalt    ON wiki TYPE string;
-DEFINE FIELD status    ON wiki TYPE string DEFAULT 'open';
-DEFINE TABLE wiki SCHEMAFULL;
-DEFINE FIELD projekt   ON wiki TYPE string;
-DEFINE FIELD typ       ON wiki TYPE string;
-DEFINE FIELD titel     ON wiki TYPE string;
-DEFINE FIELD inhalt    ON wiki TYPE string;
-DEFINE FIELD status    ON wiki TYPE string DEFAULT 'open';
-DEFINE FIELD prioritaet ON wiki TYPE string DEFAULT 'medium';
-DEFINE FIELD erstellt  ON wiki TYPE datetime DEFAULT time::now();
-DEFINE FIELD geaendert  ON wiki TYPE datetime DEFAULT time::now();
-DEFINE INDEX wiki_projekt ON wiki FIELDS projekt;
-INSERT INTO wiki [  { projekt: 'SurKAi', typ: 'doc',  titel: 'Übersicht',           inhalt: 'Echtzeit-Kanban powered by SurrealDB. Zero-Backend. React + WebSocket.' },  { projekt: 'SurKAi', typ: 'doc',  titel: 'Architektur',         inhalt: 'Browser → WebSocket → SurrealDB → LIVE SELECT. Kein Express, kein FastAPI.' },  { projekt: 'SurKAi', typ: 'bug',  titel: 'Drag & Drop RecordID',inhalt: 'dataTransfer überträgt ID als String drag. Fix: if (!id || id === drag) return; dann type::thing().', status: 'open', prioritaet: 'high' },  { projekt: '3DNTerminal', typ: 'bug', titel: 'Wayland Hit-Test', inhalt: 'Fenster reagiert nicht korrekt auf Klicks unter Wayland.', status: 'open', prioritaet: 'high' },  { projekt: '3DNTerminal', typ: 'bug', titel: 'Corner-Sync',      inhalt: 'Ecken synchronisieren nicht korrekt bei Resize.', status: 'open', prioritaet: 'medium' },  { projekt: 'SurKAi', typ: 'todo', titel: 'KAi Agent bauen',     inhalt: 'Goose + Ollama + Qwen2.5-Coder lokal. KAi liest/schreibt SurrealDB via MCP.', status: 'open', prioritaet: 'high' },  { projekt: 'SurKAi', typ: 'todo', titel: 'MCP-Server bauen',    inhalt: 'SurrealDB MCP-Schnittstelle für KAi Agent.', status: 'open', prioritaet: 'medium' },  { projekt: 'KAi',   typ: 'todo', titel: 'Goose + Ollama aufsetzen', inhalt: 'Lokaler Stack: Goose Framework + Ollama Backend + Qwen2.5-Coder Model.', status: 'open', prioritaet: 'medium' },  { projekt: 'KAi',   typ: 'todo', titel: 'KAi mit Dashboard verbinden', inhalt: 'KAi steuert Tasks, Bugs, Wiki-Einträge direkt via MCP.', status: 'open', prioritaet: 'low' }];
-UPDATE projekt:surbanai SET name = 'SurKAi', updated = time::now();
-UPDATE wiki SET projekt = 'SurKAi' WHERE projekt = 'SurKAi';
-UPDATE wiki SET projekt = 'SurKAi' WHERE projekt = 'surbanai';
-SELECT * FROM wiki;
-UPDATE wiki:agents SET   projekt = 'SurKAi',   typ = 'system',   titel = 'AGENTS.md',   inhalt = '# AI Agent Constraints & Architecture (SurKAi)\\n\\n> Global context and technical constraints for AI coding agents working on this repository.\\n> Repo: github.com/diebugger-tech/SurKAi\\n\\n## 🏗 Project Structure\\n- `src/components/`: Modular UI components (Columns, Cards, DetailPanel).\\n- `src/lib/db.js`: Centralized SurrealDB connection logic (Singleton).\\n- `src/hooks/`: Custom React hooks for data fetching and live updates.\\n- `src/App.jsx`: Main application orchestration.\\n- `system-check.sh`: Automated environment diagnostics.\\n\\n## 🤖 Critical Rules for Agents\\n1. **db.js is Singleton**: Do NOT initialize multiple connections. Use the shared instance.\\n2. **Environment Variables**: Access all configuration via `import.meta.env.VITE_*`.\\n3. **LIVE SELECT**: Always use Live Queries for real-time data synchronization.\\n4. **No Backend**: All logic is handled via frontend and SurrealDB. No custom API middleware.\\n5. **NixOS Compatibility**: All shell scripts must use `#!/usr/bin/env bash`.\\n6. **Code Style**: Functional React 18 components with Runes-like clarity (hooks).\\n\\n## 🔧 Verification\\n- Verify changes using `npm run dev`.\\n- Ensure new features adhere to the terminal dark theme aesthetic.',   status = 'done',   geaendert = time::now() 
-UPSERT wiki:agents SET projekt = 'SurKAi', typ = 'system', titel = 'AGENTS.md', inhalt = '# AI Agent Constraints & Architecture (SurKAi)\\n\\n> Global context and technical constraints for AI coding agents working on this repository.\\n> Repo: github.com/diebugger-tech/SurKAi\\n\\n## 🏗 Project Structure\\n- `src/components/`: Modular UI components (Columns, Cards, DetailPanel).\\n- `src/lib/db.js`: Centralized SurrealDB connection logic (Singleton).\\n- `src/hooks/`: Custom React hooks for data fetching and live updates.\\n- `src/App.jsx`: Main application orchestration.\\n- `system-check.sh`: Automated environment diagnostics.\\n\\n## 🤖 Critical Rules for Agents\\n1. **db.js is Singleton**: Do NOT initialize multiple connections. Use the shared instance.\\n2. **Environment Variables**: Access all configuration via `import.meta.env.VITE_*`.\\n3. **LIVE SELECT**: Always use Live Queries for real-time data synchronization.\\n4. **No Backend**: All logic is handled via frontend and SurrealDB. No custom API middleware.\\n5. **NixOS Compatibility**: All shell scripts must use `#!/usr/bin/env bash`.\\n6. **Code Style**: Functional React 18 components with Runes-like clarity (hooks).\\n\\n## 🔧 Verification\\n- Verify changes using `npm run dev`.\\n- Ensure new features adhere to the terminal dark theme aesthetic.', status = 'done', geaendert = time::now();
-INFO FOR DB;
-SELECT * FROM projects;
-SELECT * FROM wiki;
-SELECT * FROM wiki
-INSERT INTO wiki [  { projekt: 'SurKAi', typ: 'doc', titel: 'Übersicht', inhalt: 'Echtzeit-Kanban powered by SurrealDB + React.' },  { projekt: 'SurKAi', typ: 'doc', titel: 'Architektur', inhalt: 'Frontend: React + Vite. DB: SurrealDB (Live Queries). Styling: CSS Vars.' },  { projekt: 'SurKAi', typ: 'doc', titel: 'Shortcuts', inhalt: '? = Wiki | T = Todos | Backup-Button = Export | Cmd+K = Command Palette' },  { projekt: 'SurKAi', typ: 'doc', titel: 'Datenbank-Schema', inhalt: 'Tables: projekt, aufgabe, wiki. Relations über projekt.name (STRING, nicht ID).' },  { projekt: 'SurKAi', typ: 'bug', titel: 'Drag & Drop RecordID', inhalt: 'dataTransfer serialisiert RecordID als [object Object]. Fix: .toString() nutzen.', status: 'open', prioritaet: 'high' },  { projekt: 'SurKAi', typ: 'todo', titel: 'Wiki dynamisch machen', inhalt: 'WikiPanel.jsx aus SurrealDB laden statt hardcodiert.', status: 'done' },  { projekt: 'SurKAi', typ: 'todo', titel: 'TodoPanel bauen', inhalt: 'Schwebendes Panel mit drag-bar und localStorage-Position.', status: 'open', prioritaet: 'medium' }];
-SELECT * FROM wiki;
-INSERT INTO wiki [  { projekt: 'SurKAi', typ: 'doc', titel: 'Übersicht', inhalt: 'Echtzeit-Kanban powered by SurrealDB + React.', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'doc', titel: 'Architektur', inhalt: 'Frontend: React + Vite. DB: SurrealDB (Live Queries). Styling: CSS Vars.', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'doc', titel: 'Shortcuts', inhalt: '? = Wiki | T = Todos | Backup-Button = Export | Cmd+K = Command Palette', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'doc', titel: 'Datenbank-Schema', inhalt: 'Tables: projekt, aufgabe, wiki. Relations über projekt.name (STRING, nicht ID).', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'bug', titel: 'Drag & Drop RecordID', inhalt: 'dataTransfer serialisiert RecordID als [object Object]. Fix: .toString() nutzen.', status: 'open', prioritaet: 'high', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'todo', titel: 'Wiki dynamisch machen', inhalt: 'WikiPanel.jsx aus SurrealDB laden statt hardcodiert.', status: 'done', erstellt: time::now(), geaendert: time::now() },  { projekt: 'SurKAi', typ: 'todo', titel: 'TodoPanel bauen', inhalt: 'Schwebendes Panel mit drag-bar und localStorage-Position.', status: 'open', prioritaet: 'medium', erstellt: time::now(), geaendert: time::now() }];
-SELECT name FROM projekt;
-SELECT count(typ = 'todo' AND status = 'done') as done, count(typ = 'todo') as total, projekt FROM wiki GROUP BY projekt;
-INSERT INTO wiki [  { projekt: 'GuterPrompt', typ: 'doc', titel: 'Feedback-System', inhalt: 'Geplant für Mai 2026. Bewertungsmodell für Prompts.', erstellt: time::now(), geaendert: time::now(), status: 'open' },  { projekt: 'CabellistPro', typ: 'doc', titel: 'B2B Fokus', inhalt: 'Kabelmanagement und HV-Prüfungen.', erstellt: time::now(), geaendert: time::now(), status: 'open' },  { projekt: '3DNTerminal', typ: 'bug', titel: 'Wayland Hit-Test', inhalt: 'KNOWN BUG: Wayland Hit-Test Probleme bei skalierten Fenstern.', erstellt: time::now(), geaendert: time::now(), status: 'open', prioritaet: 'high' }];
 SELECT * FROM wiki;
 SELECT * FROM projekt LIMIT 1
 DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = 'CREATE' THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'Neues Projekt: ' + $after.name,    erstellt: time::now()  };};
@@ -99,3 +46,56 @@ DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN {  IN
 /*FOR $p IN (SELECT name FROM projekt) {  IF (SELECT count() FROM wiki WHERE projekt = $p.name AND titel = 'Uebersicht') = 0 {    INSERT INTO wiki {      projekt: $p.name,      typ: 'doc',      titel: 'Uebersicht',      inhalt: 'System-generierte Uebersicht fuer ' + $p.name,      erstellt: time::now(),      geaendert: time::now(),      status: 'open',      prioritaet: 'medium'    };  };};*/
 UPDATE projekt:surbanai SET name = 'KAiOSS v1.4 Final' ;
 CREATE projekt:demo SET name='Demo Projekt', status='backlog', desc='Beispiel Projekt', tags=['#demo'], icon='📋', updated=time::now();
+SELECT * FROM projekt
+SELECT * FROM wiki
+-- KAiOSS v1.4 Database Initialization
+-- Namespace: kaioss | Database: kaioss
+-- 1. Tables & Indices (Implicitly created on first insert, but good to define)
+DEFINE TABLE projekt SCHEMAFULL;
+DEFINE FIELD name ON TABLE projekt TYPE string;
+DEFINE FIELD stack ON TABLE projekt TYPE string;
+DEFINE FIELD desc ON TABLE projekt TYPE string;
+DEFINE FIELD icon ON TABLE projekt TYPE string;
+DEFINE FIELD spalte ON TABLE projekt TYPE string;
+DEFINE FIELD tags ON TABLE projekt TYPE array<string>;
+DEFINE FIELD manifest ON TABLE projekt TYPE object;
+DEFINE TABLE wiki SCHEMAFULL;
+DEFINE FIELD projekt ON TABLE wiki TYPE string; -- Matches projekt.name
+DEFINE FIELD typ ON TABLE wiki TYPE string; -- 'doc', 'bug', 'todo', 'system'
+DEFINE FIELD titel ON TABLE wiki TYPE string;
+DEFINE FIELD inhalt ON TABLE wiki TYPE string;
+DEFINE FIELD status ON TABLE wiki TYPE string DEFAULT 'open';
+DEFINE FIELD prioritaet ON TABLE wiki TYPE string DEFAULT 'medium';
+DEFINE FIELD erstellt ON TABLE wiki TYPE datetime DEFAULT time::now();
+DEFINE FIELD geaendert ON TABLE wiki TYPE datetime DEFAULT time::now();
+-- 2. Events: Auto-create Wiki entry for new projects
+REMOVE EVENT IF EXISTS wiki_auto_create ON TABLE projekt;
+DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'System-generierte Uebersicht fuer ' + $after.name,    erstellt: time::now(),    geaendert: time::now(),    status: 'open',    prioritaet: 'medium'  };};
+-- 3. Migration: Populate Wiki for existing projects (Run manually)
+/*FOR $p IN (SELECT name FROM projekt) {  IF (SELECT count() FROM wiki WHERE projekt = $p.name AND titel = 'Uebersicht') = 0 {    INSERT INTO wiki {      projekt: $p.name,      typ: 'doc',      titel: 'Uebersicht',      inhalt: 'System-generierte Uebersicht fuer ' + $p.name,      erstellt: time::now(),      geaendert: time::now(),      status: 'open',      prioritaet: 'medium'    };  };};*/
+INFO FOR DB
+-- KAiOSS v1.4 Database Initialization
+-- Namespace: kaioss | Database: kaioss
+REMOVE TABLE IF EXISTS projekt;
+REMOVE TABLE IF EXISTS wiki;
+DEFINE TABLE projekt SCHEMAFULL;
+DEFINE FIELD name ON TABLE projekt TYPE string;
+DEFINE FIELD stack ON TABLE projekt TYPE string;
+DEFINE FIELD desc ON TABLE projekt TYPE string;
+DEFINE FIELD icon ON TABLE projekt TYPE string;
+DEFINE FIELD status ON TABLE projekt TYPE string;
+DEFINE FIELD tags ON TABLE projekt TYPE array<string>;
+DEFINE FIELD cmd_start ON TABLE projekt TYPE string;
+DEFINE FIELD cmd_stop ON TABLE projekt TYPE string;
+DEFINE FIELD updated ON TABLE projekt TYPE datetime DEFAULT time::now();
+DEFINE TABLE wiki SCHEMAFULL;
+DEFINE FIELD projekt ON TABLE wiki TYPE string;
+DEFINE FIELD typ ON TABLE wiki TYPE string; -- 'doc', 'bug', 'todo', 'system'
+DEFINE FIELD titel ON TABLE wiki TYPE string;
+DEFINE FIELD inhalt ON TABLE wiki TYPE string;
+DEFINE FIELD status ON TABLE wiki TYPE string DEFAULT 'open';
+DEFINE FIELD prioritaet ON TABLE wiki TYPE string DEFAULT 'medium';
+DEFINE FIELD erstellt ON TABLE wiki TYPE datetime DEFAULT time::now();
+DEFINE FIELD geaendert ON TABLE wiki TYPE datetime DEFAULT time::now();
+DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'System-generierte Uebersicht fuer ' + $after.name,    erstellt: time::now(),    geaendert: time::now(),    status: 'open',    prioritaet: 'medium'  };};
+SELECT count() FROM wiki
