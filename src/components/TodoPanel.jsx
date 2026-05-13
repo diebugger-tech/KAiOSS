@@ -35,11 +35,30 @@ export default function TodoPanel({ onClose }) {
   }, []);
 
   useEffect(() => {
+    let liveQuery = null;
+    let isMounted = true;
+
+    const startLive = async () => {
+      try {
+        liveQuery = await db.live('wiki', ({ result }) => {
+          if (isMounted && result?.typ === 'todo') load();
+        });
+        if (!isMounted) {
+          liveQuery.kill().catch(() => {});
+          liveQuery = null;
+        }
+      } catch (err) {
+        console.warn('[Todo] Live sync failed:', err);
+      }
+    };
+
     load();
-    const unsub = db.live('wiki', (action, record) => {
-      if (record.typ === 'todo') load();
-    });
-    return () => unsub.then(u => u());
+    startLive();
+
+    return () => {
+      isMounted = false;
+      if (liveQuery) liveQuery.kill().catch(() => {});
+    };
   }, [load]);
 
   const toggleTodo = async (id, currentStatus) => {
@@ -53,13 +72,14 @@ export default function TodoPanel({ onClose }) {
     e.preventDefault();
     if (!newTodo.trim()) return;
     await db.query(
-      'CREATE wiki SET projekt=$p, typ=$t, titel=$ti, status=$s, prioritaet=$pr, erstellt=time::now(), geaendert=time::now()',
-      { 
-        p: filter === 'alle' ? 'KAiOSS' : filter, 
-        t: 'todo', 
-        ti: newTodo, 
-        s: 'open', 
-        pr: 'medium' 
+      'CREATE wiki SET projekt=$p, typ=$t, titel=$ti, inhalt=$i, status=$s, prioritaet=$pr, erstellt=time::now(), geaendert=time::now()',
+      {
+        p: filter === 'alle' ? 'KAiOSS' : filter,
+        t: 'todo',
+        ti: newTodo,
+        i: '',
+        s: 'open',
+        pr: 'medium'
       }
     );
     setNewTodo('');
@@ -90,8 +110,8 @@ export default function TodoPanel({ onClose }) {
       const data = await res.json();
       if (data.response) {
         await db.query(
-          'CREATE wiki SET projekt=$p, typ=$t, titel=$ti, status=$s, prioritaet=$pr, erstellt=time::now(), geaendert=time::now()',
-          { p: currentProj, t: 'todo', ti: data.response.trim().replace(/^"|"$/g, ''), s: 'open', pr: 'medium' }
+          'CREATE wiki SET projekt=$p, typ=$t, titel=$ti, inhalt=$i, status=$s, prioritaet=$pr, erstellt=time::now(), geaendert=time::now()',
+          { p: currentProj, t: 'todo', ti: data.response.trim().replace(/^"|"$/g, ''), i: '', s: 'open', pr: 'medium' }
         );
         setKaiPrompt('');
       }

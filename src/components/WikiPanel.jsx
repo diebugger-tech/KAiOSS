@@ -74,16 +74,18 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
       }
     };
 
-    let liveId = null;
+    let liveQuery = null;
     let isMounted = true;
 
     const startLive = async () => {
       try {
-        const id = await db.live('projekt', () => {
+        liveQuery = await db.live('projekt', () => {
           if (isMounted) loadProjects();
         });
-        if (isMounted) liveId = id;
-        else db.kill(id).catch(() => {});
+        if (!isMounted) {
+          liveQuery.kill().catch(() => {});
+          liveQuery = null;
+        }
       } catch (err) {
         console.warn('[Wiki] Project live sync failed:', err);
       }
@@ -94,7 +96,7 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
 
     return () => {
       isMounted = false;
-      if (liveId) db.kill(liveId).catch(() => {});
+      if (liveQuery) liveQuery.kill().catch(() => {});
     };
   }, []);
 
@@ -125,19 +127,21 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
   }, [currentScope]);
 
   useEffect(() => {
-    let liveId = null;
+    let liveQuery = null;
     let isMounted = true;
 
     const startLive = async () => {
       try {
-        const id = await db.live('wiki', ({ action, result }) => {
+        liveQuery = await db.live('wiki', ({ action, result }) => {
           if (!isMounted) return;
           if (currentScope === 'GLOBAL' || result.projekt === currentScope || result.typ === 'system') {
             load();
           }
         });
-        if (isMounted) liveId = id;
-        else db.kill(id).catch(() => {});
+        if (!isMounted) {
+          liveQuery.kill().catch(() => {});
+          liveQuery = null;
+        }
       } catch (err) {
         console.warn('[Wiki] Content live sync failed:', err);
       }
@@ -148,7 +152,7 @@ export default function WikiPanel({ projekt, onClose, selectedWikiEntry }) {
 
     return () => {
       isMounted = false;
-      if (liveId) db.kill(liveId).catch(() => {});
+      if (liveQuery) liveQuery.kill().catch(() => {});
     };
   }, [load, currentScope]);
 
