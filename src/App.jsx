@@ -45,7 +45,7 @@ export default function App() {
   const { handleDragStart, handleDrop } = useProjectDragDrop(showToast);
 
   // Single wiki live subscription via dedicated hook
-  const wikiStats = useWikiStats((res) => logEvent(res.action, 'wiki', res.result));
+  const wikiStats = useWikiStats(dbStatus === 'ONLINE', (res) => logEvent(res.action, 'wiki', res.result));
 
   // Persistence: Save active project
   useEffect(() => {
@@ -55,12 +55,28 @@ export default function App() {
 
   // Projekt live subscription for terminal logging
   useEffect(() => {
+    if (dbStatus !== 'ONLINE') return;
     let liveId = null;
-    db.live('projekt', (res) => logEvent(res.action, 'projekt', res.result))
-      .then(uuid => { liveId = uuid; })
-      .catch(err => console.warn('[App] db.live projekt failed:', err));
-    return () => { if (liveId) db.kill(liveId).catch(() => {}); };
-  }, [logEvent]);
+    let isMounted = true;
+    
+    const startLive = async () => {
+      try {
+        const id = await db.live('projekt', (res) => {
+          if (isMounted) logEvent(res.action, 'projekt', res.result);
+        });
+        if (isMounted) liveId = id;
+        else if (id && db.kill) db.kill(id).catch(() => {});
+      } catch (err) {
+        console.warn('[App] db.live projekt failed:', err);
+      }
+    };
+
+    startLive();
+    return () => { 
+      isMounted = false;
+      if (liveId && db.kill) db.kill(liveId).catch(() => {}); 
+    };
+  }, [logEvent, dbStatus]);
 
   useEffect(() => {
     document.body.className = theme === 'light' ? 'light-theme' : '';
@@ -70,8 +86,9 @@ export default function App() {
   const selectedProject = projects.find(p => p.id.toString() === selectedProjectId?.toString());
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
-  const openWikiEntry = useCallback((entry) => {
-    setSelectedWikiEntry(entry.id?.toString());
+  const openWikiEntry = useCallback((entryOrId) => {
+    const id = typeof entryOrId === 'string' ? entryOrId : entryOrId.id?.toString();
+    setSelectedWikiEntry(id);
     setShowWiki(true);
     setShowCommandPalette(false);
   }, []);
@@ -104,6 +121,7 @@ export default function App() {
           <KAiPanel 
             aktiveProjekt={selectedProject} 
             onClose={() => setShowKaiPanel(false)} 
+            onOpenWiki={openWikiEntry}
           />
         </div>
       )}
