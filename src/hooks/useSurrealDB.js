@@ -53,7 +53,7 @@ export function useSurrealDB() {
         }
 
         // Live Subscription
-        const id = await db.live('projekt', ({ action, result }) => {
+        const liveQuery = await db.live('projekt', ({ action, result }) => {
           if (!isMounted) return;
           setProjects(prev => {
             let next;
@@ -73,9 +73,9 @@ export function useSurrealDB() {
         });
 
         if (isMounted) {
-          liveQueryId.current = id;
-        } else if (id && db.kill) {
-          db.kill(id).catch(() => {});
+          liveQueryId.current = liveQuery;
+        } else {
+          liveQuery.kill().catch(() => {});
         }
 
       } catch (err) {
@@ -103,8 +103,8 @@ export function useSurrealDB() {
 
     return () => {
       isMounted = false;
-      if (liveQueryId.current && db.kill) {
-        db.kill(liveQueryId.current).catch(() => {});
+      if (liveQueryId.current) {
+        liveQueryId.current.kill().catch(() => {});
       }
     };
   }, []);

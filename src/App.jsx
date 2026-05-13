@@ -56,16 +56,18 @@ export default function App() {
   // Projekt live subscription for terminal logging
   useEffect(() => {
     if (dbStatus !== 'ONLINE') return;
-    let liveId = null;
+    let liveQuery = null;
     let isMounted = true;
     
     const startLive = async () => {
       try {
-        const id = await db.live('projekt', (res) => {
+        liveQuery = await db.live('projekt', (res) => {
           if (isMounted) logEvent(res.action, 'projekt', res.result);
         });
-        if (isMounted) liveId = id;
-        else if (id && db.kill) db.kill(id).catch(() => {});
+        if (!isMounted) {
+          liveQuery.kill().catch(() => {});
+          liveQuery = null;
+        }
       } catch (err) {
         console.warn('[App] db.live projekt failed:', err);
       }
@@ -74,7 +76,7 @@ export default function App() {
     startLive();
     return () => { 
       isMounted = false;
-      if (liveId && db.kill) db.kill(liveId).catch(() => {}); 
+      if (liveQuery) liveQuery.kill().catch(() => {}); 
     };
   }, [logEvent, dbStatus]);
 
