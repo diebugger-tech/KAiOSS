@@ -29,10 +29,12 @@ const styles = {
     alignItems: 'center',
     padding: '8px 12px',
     borderBottom: '1px solid var(--border)',
-    background: 'var(--bg-secondary)'
+    background: 'var(--bg-secondary)',
+    position: 'relative',
+    minWidth: 0
   },
   title: { color: '#1D9E75', fontSize: '12px', fontWeight: '500' },
-  headerRight: { display: 'flex', alignItems: 'center', gap: '8px' },
+  headerRight: { display: 'flex', alignItems: 'center', gap: '8px', paddingRight: '32px', minWidth: 0 },
   modelSelect: {
     fontSize: '11px',
     fontFamily: 'monospace',
@@ -41,7 +43,10 @@ const styles = {
     border: '1px solid var(--border)',
     borderRadius: '4px',
     padding: '2px 4px',
-    outline: 'none'
+    outline: 'none',
+    maxWidth: '130px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   kontextBar: {
     padding: '4px 12px',
@@ -105,17 +110,19 @@ const styles = {
     cursor: 'pointer'
   },
   closeBtn: {
+    position: 'absolute',
+    right: '8px',
+    top: '50%',
+    transform: 'translateY(-50%)',
     background: 'transparent',
     border: 'none',
     color: 'var(--text-secondary)',
-    borderRadius: '4px',
     padding: '2px 6px',
     cursor: 'pointer',
     fontSize: '16px',
     lineHeight: 1,
-    marginLeft: '4px',
-    flexShrink: 0,
-    transition: 'color 0.15s ease'
+    transition: 'color 0.15s ease',
+    zIndex: 1
   }
 };
 
