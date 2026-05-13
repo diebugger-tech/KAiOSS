@@ -7,16 +7,17 @@ import db from '../lib/db';
  * Accepts an optional callback for live events (used for logging).
  * This ensures only ONE db.live('wiki') subscription exists in the entire app.
  */
-export function useWikiStats(onLiveEvent) {
+export function useWikiStats(ready, onLiveEvent) {
   const [wikiStats, setWikiStats] = useState({});
 
   useEffect(() => {
+    if (!ready) return;
+
     const fetchStats = async () => {
       try {
         const res = await db.query(
           'SELECT count(typ = "todo" AND status = "done") as done, count(typ = "todo") as total, projekt FROM wiki GROUP BY projekt'
         );
-        // Normalize SDK response regardless of version quirks
         const data = Array.isArray(res[0]) ? res[0] : (res[0]?.result ?? []);
         const stats = {};
         data.forEach(r => {
@@ -28,20 +29,32 @@ export function useWikiStats(onLiveEvent) {
       }
     };
 
-    fetchStats();
+    let liveId = null;
+    let isMounted = true;
 
-    // Single LIVE subscription — handles both stats refresh AND optional external logging
-    const unsubPromise = db.live('wiki', (res) => {
-      fetchStats();
-      onLiveEvent?.(res);
-    });
+    const startLive = async () => {
+      try {
+        const id = await db.live('wiki', (res) => {
+          if (isMounted) {
+            fetchStats();
+            onLiveEvent?.(res);
+          }
+        });
+        if (isMounted) liveId = id;
+        else if (id && db.kill) db.kill(id).catch(() => {});
+      } catch (err) {
+        console.warn('[WikiStats] Live sync failed:', err);
+      }
+    };
+
+    fetchStats();
+    startLive();
 
     return () => {
-      unsubPromise.then(uuid => db.kill(uuid)).catch(() => {});
+      isMounted = false;
+      if (liveId && db.kill) db.kill(liveId).catch(() => {});
     };
-  // onLiveEvent intentionally excluded from deps to avoid re-subscribing on every render
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ready, onLiveEvent]);
 
   return wikiStats;
 }
