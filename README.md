@@ -1,5 +1,3 @@
-# KAiOSS
-
 > AI-native project hub — Kanban, Wiki, Multi-Model KAi, powered by SurrealDB + React
 
 ![SurrealDB](https://img.shields.io/badge/SurrealDB-2.x-ff00a0?style=for-the-badge&logo=surrealdb)
@@ -29,6 +27,7 @@ Groq   ──┼──→ KAiOSS DB (SurrealDB) ──→ Projekte
 Ollama ──┤                               Wiki
 OpenAI ──┘                               Chat-History
                                          TODOs
+                                         Agent-Log
 ```
 
 ---
@@ -73,38 +72,120 @@ OpenAI ──┘                               Chat-History
 - KAi Fallback via Ollama wenn keine Wiki-Treffer
 - Obsidian Vault → SurrealDB Sync Button (File System Access API)
 - Auto-Save im DetailPanel (500ms Debounce)
+- Streaming (stream: true + ReadableStream)
+- Download-Progress via /api/pull (ASCII Progress-Bar im Chat)
 
 ### v1.5 — Geplant 📋
 - Multi-Model KAi Hub (Claude, Gemini, Groq, Ollama)
+- models.config.js (zentrales Modell-Routing mit DSGVO-Klassifizierung)
+- DSGVO-Farbkodierung im Modell-Dropdown (🟢 lokal / 🟡 USA / 🔴 China)
 - Chat-History in SurrealDB
-- Remote DB Sync
+- Remote DB Sync (opt-in, explizit)
 - Chat-History Import (Claude/Gemini JSON Export)
-- Ghost Drop zwischen Spalten (Cross-Column Reorder)
+- Ghost Drop zwischen Spalten
 - Suchbegriff-Highlighting im Wiki
 
-### v2.0 — Vision 🚀
-- Vollständiger KI-Hub
+### v2.0 — Agent Orchestration + Claude MCP 🤖
+- Claude API Integration direkt in KAiOSS (Planungs-Agent)
+- SurrealDB MCP-Server → Claude liest Projekte, Tasks, Wiki direkt
+- Master-Agent (Qwen2.5:32b) orchestriert Sub-Agenten via GUI:
+  ```
+  Task (SurrealDB)
+    → Researcher Agent (Qwen2.5:7b)
+    → Coder Agent (Qwen2.5-Coder:7b)
+    → Reviewer Agent (gemma3:12b)
+    → Status: DONE
+  ```
+- GUI-Button "▶ Start Agent Pipeline" pro Projekt
+- LIVE SELECT auf task_queue → Echtzeit-Pipeline-Status
+- agent_log Panel (wer hat was wann gemacht)
+- MCP-Tool: goose_spawn (startet Goose Sub-Sessions programmatisch)
+- Per-Projekt isolierte Agent-Workspaces
+
+### v3.0 — Vision 🚀
 - Zugriffskontrolle (`privat | team | öffentlich`)
+- Recht auf Löschung via UI (DSGVO Art. 17)
+- Datenexport eigener Daten (DSGVO Art. 20)
 - Multi-User (Team-Modus)
 - Community Release
 - SurrealDB Showcase Einreichung
 
 ---
 
-## Datenschutz & Zugriffskontrolle
-
-KAiOSS speichert **keine** API Keys in der Datenbank.
+## Agent-Architektur (v2.0)
 
 ```
-localStorage  → API Keys (nur lokal, nie übertragen)
-SurrealDB     → Chat-History, Wiki, Projekte, TODOs
-Remote Sync   → optional, explizit aktivierbar
+KAiOSS Dashboard
+    └── triggert Master-Agent (Goose + Qwen2.5:32b)
+            ├── liest pending Tasks aus SurrealDB via MCP
+            ├── entscheidet: welcher Sub-Agent für welchen Task
+            ├── spawnt Goose Sub-Session
+            ├── schreibt Ergebnis zurück in SurrealDB
+            └── wiederholt bis Queue leer
+
+Claude Integration (zwei Modi):
+  A) API-Modus: KAiOSS → Anthropic API (mit DB-Kontext im Prompt)
+  B) MCP-Modus: claude.ai → MCP-Server → SurrealDB (direkter DB-Zugriff)
+
+SurrealDB Vault
+  ├── task_queue   (status: pending/in_progress/done)
+  ├── agent_log    (agent, task, output, timestamp)
+  ├── projects     (agent workspaces)
+  └── wiki         (agent knowledge base)
 ```
 
-Zugriffskontrolle (v2.0):
-- Jeder Chat-Eintrag hat einen `sichtbarkeit` Flag: `privat | team | öffentlich`
-- SurrealDB `DEFINE SCOPE` für User-basierte Zugriffskontrolle
-- Lokale Instanz = voller Zugriff, Remote = nur freigegebene Daten
+**Modell-Split:**
+
+| Agent | Modell | RAM |
+|---|---|---|
+| Master | Qwen2.5:32b (Q4) | ~20 GB |
+| Researcher | Qwen2.5:7b | ~5 GB |
+| Coder | Qwen2.5-Coder:7b | ~5 GB |
+| Reviewer | gemma3:12b | ~8 GB |
+
+---
+
+## DSGVO & Datenschutz
+
+KAiOSS ist **Lokal-first** — aber nicht alle Modelle sind gleich sicher.
+
+### Modell-Klassifizierung
+
+| Modell | Anbieter | Sitz | DPF | DSGVO |
+|--------|----------|------|-----|-------|
+| Ollama (lokal) | — | Lokal | — | 🟢 kein Risiko |
+| Qwen2.5 (lokal) | — | Lokal | — | 🟢 kein Risiko |
+| DeepSeek (lokal) | — | Lokal | — | 🟢 kein Risiko |
+| Mistral API | Mistral AI | 🇫🇷 EU | ✅ | 🟢 niedrig |
+| Claude API | Anthropic | 🇺🇸 USA | ✅ | 🟡 mittel |
+| Gemini API | Google | 🇺🇸 USA | ✅ | 🟡 mittel |
+| Groq API | Groq | 🇺🇸 USA | ✅ | 🟡 mittel |
+| OpenAI API | OpenAI | 🇺🇸 USA | ✅ | 🟡 mittel |
+| Qwen API | Alibaba | 🇨🇳 China | ❌ | 🔴 kritisch |
+| DeepSeek API | DeepSeek | 🇨🇳 China | ❌ | 🔴 kritisch |
+| GLM / Zhipu API | Zhipu AI | 🇨🇳 China | ❌ | 🔴 kritisch |
+
+> ⚠️ **Wichtig:** Lokale Modelle (Ollama) sind immer 🟢 — unabhängig vom Modell-Ursprung.
+> Die Klassifizierung gilt nur für **API-Aufrufe** an externe Server.
+> Chinesische Anbieter unterliegen dem chinesischen Datensicherheitsgesetz —
+> Datenweitergabe an Behörden ist gesetzlich verpflichtend, kein DPF möglich.
+
+### Was KAiOSS speichert
+
+```
+localStorage  → API Keys (nur lokal, nie übertragen, nie in DB)
+SurrealDB     → Chat-History, Wiki, Projekte, TODOs, Agent-Log
+Remote Sync   → optional, explizit opt-in, nie automatisch
+```
+
+### Was das Gerät verlässt (bei Cloud-Modellen)
+
+Wenn du ein Cloud-Modell (🟡 / 🔴) nutzt, werden **Prompts und Kontext** an externe Server übertragen. KAiOSS zeigt dies im Modell-Dropdown durch Farbkodierung an.
+
+### DSGVO-Rechte (v3.0)
+
+- **Art. 17** — Recht auf Löschung: eigene Daten löschbar via UI
+- **Art. 20** — Datenportabilität: Export aller eigenen Daten als JSON/SURQL
 
 ---
 
@@ -115,7 +196,7 @@ git clone https://github.com/diebugger-tech/kaioss
 cd kaioss
 npm install
 
-# SurrealDB starten (lokal)
+# SurrealDB starten
 surreal start --log trace --user root --pass root memory
 
 # Dev Server
@@ -132,20 +213,13 @@ VITE_SURREAL_NS=kaioss
 VITE_SURREAL_DB=kaioss
 ```
 
-### SurrealDB Schema
-
-```sql
-USE NS kaioss DB kaioss;
--- Tabellen werden automatisch via db/init.surql angelegt
-```
-
 ---
 
 ## Entwickelt mit
 
 ```
 Planung       → Claude (Anthropic)
-Code          → Gemini 2.5 Flash (antigravity)
+Code          → Gemini 2.5 Flash
 Ausführung    → Goose + OpenCode
 Reasoning     → Qwen3 32B (Groq)
 ```
@@ -157,7 +231,7 @@ Reasoning     → Qwen3 32B (Groq)
 KAiOSS ist Open Source (Apache 2.0).
 Issues, PRs und Ideen sind willkommen.
 
-Lies [`MILESTONES.md`](./MILESTONES.md) für den aktuellen Entwicklungsstand.
+Lies [`ROADMAP.md`](./ROADMAP.md) und [`TODO.md`](./TODO.md) für den aktuellen Entwicklungsstand.
 
 ---
 
