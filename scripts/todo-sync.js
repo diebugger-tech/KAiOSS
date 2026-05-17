@@ -16,10 +16,10 @@ async function connectDB() {
     try {
         await db.connect(DB_ENDPOINT);
         await db.signin({
-            user: 'root',
-            pass: 'root',
+            username: 'root',
+            password: 'root',
         });
-        await db.use({ ns: 'kaioss', db: 'kaioss' });
+        await db.use({ namespace: 'kaioss', database: 'kaioss' });
         console.log('✅ Verbunden mit SurrealDB');
     } catch (err) {
         console.error('❌ DB-Verbindungsfehler:', err.message);
