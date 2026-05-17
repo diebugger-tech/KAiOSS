@@ -56,12 +56,12 @@ export const useTaskDB = {
       let result;
       if (projekt) {
         result = await db.query(
-          'SELECT * FROM task WHERE projekt = $projekt ORDER BY priorität DESC, erstellt DESC',
+          'SELECT * FROM task WHERE projekt = $projekt ORDER BY `priorität` DESC, erstellt DESC',
           { projekt }
         );
       } else {
         result = await db.query(
-          'SELECT * FROM task ORDER BY priorität DESC, erstellt DESC'
+          'SELECT * FROM task ORDER BY `priorität` DESC, erstellt DESC'
         );
       }
       const data = result[0]?.result || result[0] || [];
