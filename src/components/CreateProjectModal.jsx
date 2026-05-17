@@ -30,9 +30,7 @@ export default function CreateProjectModal({ isOpen, onClose, onNotify, onCreate
       const [res] = await db.query('CREATE projekt CONTENT $data', { 
         data: {
           ...formData,
-          tags: [],
-          erstellt: new Date().toISOString(),
-          updated: new Date().toISOString()
+          tags: []
         }
       });
       const newProj = res.result?.[0] || res[0];
