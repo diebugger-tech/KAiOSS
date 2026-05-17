@@ -39,9 +39,24 @@ status: ## Zeigt Status von SurrealDB und Dev-Server
 	@ss -tlnp | grep 8000 && echo "✅ SurrealDB: läuft (8000)" || echo "❌ SurrealDB: gestoppt"
 
 db-backup:
-	@echo "Creating backup..."
-	surreal export --conn http://localhost:8000 \
-	  --user root --pass root \
-	  --ns kaioss --db kaioss \
-	  kaioss_backup_$(shell date +%Y%m%d_%H%M%S).surql
-	@echo "Backup done."
+	@mkdir -p backups
+	$(eval FILE := backups/kaioss_$(shell date +%Y%m%d_%H%M%S).surql)
+	surreal export --conn ws://localhost:8000 \
+		--user root --pass root \
+		--ns kaioss --db kaioss $(FILE)
+	sha256sum $(FILE) > $(FILE).sha256
+	@echo "✅ Backup angelegt: $(FILE)"
+	$(eval HASH := $(shell awk '{print $$1}' $(FILE).sha256))
+	@echo "🔐 Hash: $(HASH)"
+	@echo "INSERT INTO backup_log { datei: '$(FILE)', hash: '$(HASH)', erstellt: time::now() };" | \
+		surreal sql --endpoint ws://localhost:8000 \
+		--user root --pass root \
+		--ns kaioss --db kaioss
+	@echo "✅ Log in SurrealDB gespeichert."
+
+db-verify:
+	@sha256sum -c backups/*.sha256 && echo "✅ Alle Backups integer" \
+	|| echo "❌ Manipulation erkannt"
+
+db-backup-list:
+	@ls -lh backups/*.surql 2>/dev/null || echo "Keine Backups gefunden"

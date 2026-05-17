@@ -28,6 +28,7 @@ kaioss_keys.json
 # (src/db/*.surql bleiben im Repo)
 /*.surql
 *.surql.bak
+backups/
 
 # Obsidian Bridge
 .obsidian/

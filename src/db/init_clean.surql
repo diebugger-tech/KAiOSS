@@ -88,3 +88,10 @@ DEFINE FIELD bewertung ON kai_log TYPE option<int>;
 DEFINE FIELD timestamp ON kai_log TYPE datetime DEFAULT time::now();
 
 DEFINE INDEX idx_kai_log_task  ON kai_log FIELDS task;
+
+-- === backup_log table ===
+DEFINE TABLE backup_log SCHEMAFULL;
+DEFINE FIELD datei       ON backup_log TYPE string;
+DEFINE FIELD hash        ON backup_log TYPE string;
+DEFINE FIELD erstellt    ON backup_log TYPE datetime DEFAULT time::now();
+DEFINE FIELD verifiziert ON backup_log TYPE bool DEFAULT false;
