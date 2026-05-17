@@ -1,6 +1,6 @@
 > AI-native project hub — Kanban, Wiki, Multi-Model KAi, powered by SurrealDB + React
 
-![SurrealDB](https://img.shields.io/badge/SurrealDB-2.x-ff00a0?style=for-the-badge&logo=surrealdb)
+![SurrealDB](https://img.shields.io/badge/SurrealDB-2.3.10-ff00a0?style=for-the-badge&logo=surrealdb)
 ![React 18](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
 ![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue?style=for-the-badge)
@@ -192,7 +192,7 @@ Wenn du ein Cloud-Modell (🟡 / 🔴) nutzt, werden **Prompts und Kontext** an 
 ## Installation
 
 ```bash
-git clone https://github.com/diebugger-tech/kaioss
+git clone https://github.com/diebugger-tech/KAiOSS
 cd kaioss
 npm install
 
