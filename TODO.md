@@ -9,8 +9,9 @@ _Stand: 17.05.2026_
 - [x] #16 Datensicherung mit Hash-Werten (sha256)
 - [x] #30a Legacy Wiki-TODOs Migration (obsolet — keine Legacy-Daten)
 - [x] #31 TODO.md → SurrealDB Sync (todo-sync.js)
-- [ ] #3 Skill: kaioss-security (Architektur-Entwurf: Alias-Methode, Whitelist commands.json, NixOS Sandboxing via bubblewrap)
 - [ ] #21 Human-in-the-Loop Konzept (HITL Bestätigung für kritische Befehle)
+- [ ] #33 Pflanternen Stufe 1 Optimierungen (Commit-Hash als ID, Root-Commit Fallback, Branch + Author Metadaten)
+
 
 ## Phase 2 — KAi Bootstrap
 
