@@ -33,6 +33,17 @@ db-init: ## Initialisiert Demo-Daten in SurrealDB
 		--hide-welcome <<< "CREATE projekt:demo SET name='Demo Projekt', status='backlog', desc='Beispiel Projekt', tags=['#demo'], icon='📋', updated=time::now();"
 	@echo "✅ Demo-Daten geladen"
 
+db-seed: ## Demo-Daten in den Demo-Namespace einspielen
+	@VITE_SURREAL_NS=demo VITE_SURREAL_DB=demo bash db_seed.sh
+
+db-demo: ## Startet den Demo-Modus (seed + dev auf demo Namespace)
+	@VITE_SURREAL_NS=demo VITE_SURREAL_DB=demo make db-seed
+	@VITE_SURREAL_NS=demo VITE_SURREAL_DB=demo make dev
+
+db-reset: ## Setzt die Demo-Datenbank komplett zurück (mit Safety Guards)
+	@VITE_SURREAL_NS=demo VITE_SURREAL_DB=demo bash db_reset.sh
+
+
 status: ## Zeigt Status von SurrealDB und Dev-Server
 	@echo "--- KAiOSS Status ---"
 	@ss -tlnp | grep 5174 && echo "✅ Dev-Server: läuft (5174)" || echo "❌ Dev-Server: gestoppt"
