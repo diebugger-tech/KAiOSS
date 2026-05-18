@@ -1,5 +1,7 @@
 # Contributing to KAiOSS
 
+KAiOSS ist ein AI-natives Projekt-Hub und Kanban-Board, powered by SurrealDB + React. Zero-Backend, Local-First.
+
 First off, thanks for taking the time to contribute! 🎉
 
 ## How to Contribute
