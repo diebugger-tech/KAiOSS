@@ -17,7 +17,13 @@
 
 ---
 
-## Meilenstein v1.4 — Fertig ✅
+## Meilenstein v1.4.0 — Aktuell ✅
+
+- [x] Phase-HUD Roadmap im WikiPanel
+- [x] Sidebar Collapse/Expand
+- [x] Resize-Handle (localStorage)
+- [x] Cross-Projekt Dashboard
+- [x] Demo-Namespace + Seed-Script
 
 ### Board Refactor
 - [x] Board.jsx neu erstellen (aus App.jsx extrahieren)
@@ -51,7 +57,11 @@
 
 ---
 
-## Meilenstein v1.5 — Geplant 📋
+## Meilenstein v1.5.0 — Geplant 📋
+
+- [ ] kaioss-security (#3): Alias, commands.json, bubblewrap
+- [ ] cmd-runner (#32): Sicherer Hintergrund-Executor
+- [ ] Pflanternen Stufe 1 Optimierungen (#33)
 
 ### Multi-Model KAi Hub
 - [ ] `models.config.js` (Claude, Gemini, Groq, Ollama, OpenRouter)
@@ -82,6 +92,11 @@
 ---
 
 ## Meilenstein v2.0 — Vision 🚀
+
+- [ ] KAi Agent vollständig (Goose + Ollama)
+- [ ] AlphaGo-Sandbox (Pflanternen Stufe 3)
+- [ ] NixOS-native Agent-Services
+- [ ] SurrealDB Showcase Einreichung
 
 ### Zugriffskontrolle
 - [ ] `sichtbarkeit` Flag pro Chat-Eintrag (`privat | team | öffentlich`)
