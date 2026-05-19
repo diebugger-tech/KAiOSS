@@ -1,38 +1,4 @@
 #V2
-SELECT * FROM wiki;
-SELECT * FROM projekt LIMIT 1
-DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = 'CREATE' THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'Neues Projekt: ' + $after.name,    erstellt: time::now()  };};
-FOR $p IN (SELECT name FROM projekt) {  IF (SELECT count() FROM wiki WHERE projekt = $p.name) = 0 {    INSERT INTO wiki {      projekt: $p.name,      typ: 'doc',      titel: 'Uebersicht',      inhalt: 'Projekt: ' + $p.name,      erstellt: time::now()    };  };};
-DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = 'CREATE' THEN { INSERT INTO wiki { projekt: $after.name, typ: 'doc', titel: 'Uebersicht', inhalt: 'Neues Projekt: ' + $after.name, erstellt: time::now() }; };
-FOR $p IN (SELECT name FROM projekt) { IF (SELECT count() FROM wiki WHERE projekt = $p.name AND typ = 'doc') = 0 { INSERT INTO wiki { projekt: $p.name, typ: 'doc', titel: 'Uebersicht', inhalt: 'Projekt: ' + $p.name, erstellt: time::now() }; }; };
-SELECT count() FROM projekt;
-SELECT projekt, count() FROM wiki GROUP BY projekt;
-SELECT name, status, stack FROM projekt;
-SELECT projekt, count() FROM wiki GROUP BY projekt;
-FOR $p IN (SELECT name FROM projekt) { LET $exists = (SELECT id FROM wiki WHERE projekt = $p.name AND typ = 'doc' LIMIT 1); IF array::len($exists) = 0 { INSERT INTO wiki { projekt: $p.name, typ: 'doc', titel: 'Uebersicht', inhalt: 'Projekt: ' + $p.name, erstellt: time::now() }; }; };
-INSERT INTO wiki { projekt: 'Agenten-System', typ: 'doc', titel: 'Uebersicht', inhalt: 'Test', erstellt: time::now() };
-FOR $p IN (SELECT name FROM projekt) { IF (SELECT count() FROM wiki WHERE projekt = $p.name AND typ = 'doc')[0].count = 0 { INSERT INTO wiki { projekt: $p.name, typ: 'doc', titel: 'Uebersicht', inhalt: 'Projekt: ' + $p.name, erstellt: time::now() }; }; };
-SELECT projekt, count() FROM wiki GROUP BY projekt;
-SELECT name, manifest FROM projekt
-DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN { INSERT INTO wiki { projekt: $after.name, typ: "doc", titel: "Uebersicht", inhalt: "System-generierte Uebersicht fuer " + $after.name, erstellt: time::now(), geaendert: time::now(), status: "open", prioritaet: "medium" }; };
-FOR $p IN (SELECT name FROM projekt) { IF (SELECT count() FROM wiki WHERE projekt = $p.name AND titel = 'Uebersicht') = 0 { INSERT INTO wiki { projekt: $p.name, typ: 'doc', titel: 'Uebersicht', inhalt: 'System-generierte Uebersicht fuer ' + $p.name, erstellt: time::now(), geaendert: time::now(), status: 'open', prioritaet: 'medium' }; }; };
-INSERT INTO wiki { projekt: "KAiOSS", typ: "system", titel: "DB_INIT / Schema", inhalt: "Die Datenbank-Initialisierung befindet sich in `src/db/init.surql`.\\\\n\\\\n### Wichtige Befehle:\\\\n\\\\n**Event anlegen:**\\\\n```sql\\\\nDEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = \\"CREATE\\" THEN { ... };\\\\n```\\\\n\\\\n**Bestand nachholen:**\\\\n```sql\\\\nFOR $p IN (SELECT name FROM projekt) { ... };\\\\n```", erstellt: time::now(), geaendert: time::now(), status: "done", prioritaet: "medium" };
-INSERT INTO wiki [  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Mermaid.js Integration", status: "open", prioritaet: "high", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Syntax Highlighting (Prism/Shiki)", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Architektur-Templates (ADR, Setup)", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: KAi Context-Sync (Wiki -> Prompt)", status: "open", prioritaet: "low", erstellt: time::now() }];
-INSERT INTO wiki [  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Mermaid.js Integration", inhalt: "", status: "open", prioritaet: "high", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Syntax Highlighting (Prism/Shiki)", inhalt: "", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: Architektur-Templates (ADR, Setup)", inhalt: "", status: "open", prioritaet: "medium", erstellt: time::now() },  { projekt: "KAiOSS", typ: "todo", titel: "Wiki-Upgrade: KAi Context-Sync (Wiki -> Prompt)", inhalt: "", status: "open", prioritaet: "low", erstellt: time::now() }];
--- KAiOSS v1.3 Database Initialization
--- Namespace: kanban | Database: projects
--- 1. Tables & Indices (Implicitly created on first insert, but good to define)
-DEFINE TABLE projekt SCHEMAFULL;
-DEFINE FIELD name ON TABLE projekt TYPE string;
-DEFINE FIELD stack ON TABLE projekt TYPE string;
-DEFINE FIELD desc ON TABLE projekt TYPE string;
-DEFINE FIELD icon ON TABLE projekt TYPE string;
-DEFINE FIELD spalte ON TABLE projekt TYPE string;
-DEFINE FIELD tags ON TABLE projekt TYPE array<string>;
-DEFINE FIELD manifest ON TABLE projekt TYPE object;
-DEFINE TABLE wiki SCHEMAFULL;
-DEFINE FIELD projekt ON TABLE wiki TYPE string; -- Matches projekt.name
-DEFINE FIELD typ ON TABLE wiki TYPE string; -- 'doc', 'bug', 'todo', 'system'
 DEFINE FIELD titel ON TABLE wiki TYPE string;
 DEFINE FIELD inhalt ON TABLE wiki TYPE string;
 DEFINE FIELD status ON TABLE wiki TYPE string DEFAULT 'open';
@@ -99,7 +65,6 @@ DEFINE FIELD erstellt ON TABLE wiki TYPE datetime DEFAULT time::now();
 DEFINE FIELD geaendert ON TABLE wiki TYPE datetime DEFAULT time::now();
 DEFINE EVENT wiki_auto_create ON TABLE projekt WHEN $event = "CREATE" THEN {  INSERT INTO wiki {    projekt: $after.name,    typ: 'doc',    titel: 'Uebersicht',    inhalt: 'System-generierte Uebersicht fuer ' + $after.name,    erstellt: time::now(),    geaendert: time::now(),    status: 'open',    prioritaet: 'medium'  };};
 SELECT count() FROM wiki
-
 -- KAiOSS v1.4.x Agentic Improvement Session (2026-05-13)
 -- Changes:
 --   fix:  migrate live subscriptions to SurrealDB v2 API (liveQuery.kill) — App.jsx, useSurrealDB.js
@@ -112,3 +77,25 @@ SELECT count() FROM wiki
 --
 -- SELECT * FROM projekt WHERE status != 'archived' ORDER BY erstellt DESC;
 -- UPDATE type::thing($id) SET status = 'archived', updated = time::now();
+-- Schema definition for nixos_training_game in namespace: pflanternen, database: diagnosen
+DEFINE TABLE nixos_training_game SCHEMAFULL;
+DEFINE FIELD task_description   ON nixos_training_game TYPE string;
+DEFINE FIELD action_diff        ON nixos_training_game TYPE option<string>;
+DEFINE FIELD build_success      ON nixos_training_game TYPE bool;
+DEFINE FIELD error_logs         ON nixos_training_game TYPE option<string>;
+DEFINE FIELD service_health     ON nixos_training_game TYPE bool;
+DEFINE FIELD reward             ON nixos_training_game TYPE float;
+DEFINE FIELD host               ON nixos_training_game TYPE string;
+DEFINE FIELD timestamp          ON nixos_training_game TYPE datetime DEFAULT time::now();
+-- Schema definition for nixos_training_game in namespace: pflanternen, database: diagnosen
+DEFINE TABLE nixos_training_game SCHEMAFULL;
+DEFINE FIELD task_description   ON nixos_training_game TYPE string;
+DEFINE FIELD action_diff        ON nixos_training_game TYPE option<string>;
+DEFINE FIELD build_success      ON nixos_training_game TYPE bool;
+DEFINE FIELD error_logs         ON nixos_training_game TYPE option<string>;
+DEFINE FIELD service_health     ON nixos_training_game TYPE bool;
+DEFINE FIELD reward             ON nixos_training_game TYPE float;
+DEFINE FIELD host               ON nixos_training_game TYPE string;
+DEFINE FIELD timestamp          ON nixos_training_game TYPE datetime DEFAULT time::now();
+CREATE nixos_training_game CONTENT {"timestamp":d"2026-05-19T19:41:55+02:00","host":"Gaming-Ollama-PC","task_description":"test: migration","action_diff":"","build_success":false,"error_logs":"sudo: Der Schalter »no new privileges« ist gesetzt, welcher sudo daran hindert, als Root ausgeführt zu werden.\\nsudo: Falls sudo in einem Container ausgeführt wird, könnte es nötig sein, die Containerkonfiguration anzupassen, um diesen Schalter zu deaktivieren.","service_health":true,"reward":-0.5};
+SELECT * FROM nixos_training_game ORDER BY timestamp DESC LIMIT 1;
