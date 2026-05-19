@@ -13,6 +13,8 @@ _Stand: 17.05.2026_
 - [ ] #33 Pflanternen Stufe 1 Optimierungen (Commit-Hash als ID, Root-Commit Fallback, Branch + Author Metadaten)
 - [ ] #34 Dependency-Graph View (D3/vis.js) — Phase 2 Feature (Kommentar bereits in WikiPanel.jsx vorhanden)
 - [ ] #35 Markdown-Rendering in Task-Titeln (**text** → bold, kein Raw-Asterisk anzeigen)
+- [ ] #36 Agent Memory: Konversationen in SurrealDB synchronisieren
+
 
 
 ## Phase 2 — KAi Bootstrap
