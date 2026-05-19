@@ -276,7 +276,9 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
 
     const handleMouseMove = (moveEvent) => {
       const deltaX = moveEvent.clientX - startX;
-      const newWidth = Math.max(180, Math.min(500, startWidth + deltaX));
+      const minSidebarWidth = 150;
+      const maxSidebarWidth = containerWidth - 150;
+      const newWidth = Math.max(minSidebarWidth, Math.min(maxSidebarWidth, startWidth + deltaX));
       setSidebarWidth(newWidth);
       localStorage.setItem('kai_sidebar_width', newWidth.toString());
     };
