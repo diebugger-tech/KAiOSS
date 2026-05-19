@@ -116,6 +116,7 @@ export default function App() {
           columns={COLUMNS} projects={projects} isLoading={isLoading}
           onDragStart={handleDragStart} onDrop={handleDrop}
           onCardClick={setSelectedProjectId} wikiStats={wikiStats}
+          dbReady={dbStatus === 'ONLINE'}
         />
       )}
 
