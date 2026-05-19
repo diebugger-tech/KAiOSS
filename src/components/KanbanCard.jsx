@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import db from '../lib/db';
 
-export default function KanbanCard({ project, onDragStart, onDragEnd, onClick }) {
+export default function KanbanCard({ project, onDragStart, onDragEnd, onClick, dbReady = false }) {
   const [progress, setProgress] = useState(0);
 
   const loadProgress = async (projektName) => {
@@ -50,7 +50,7 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick })
       }
     };
 
-    if (project?.name) {
+    if (project?.name && dbReady) {
       loadProgress(project.name).then(setProgress);
       startLive();
     }
@@ -61,7 +61,7 @@ export default function KanbanCard({ project, onDragStart, onDragEnd, onClick })
         db.kill(liveId).catch(() => {});
       }
     };
-  }, [project?.name]);
+  }, [project?.name, dbReady]);
 
   const styles = {
     card: {
