@@ -19,18 +19,7 @@
 DEFINE TABLE IF NOT EXISTS task_queue SCHEMAFULL;
 
 DEFINE FIELD alias                 ON task_queue TYPE string;
-DEFINE FIELD status                ON task_queue TYPE string DEFAULT 'pending'
-    ASSERT $value IN [
-        'pending',
-        'awaiting_approval',
-        'approved',
-        'running',
-        'done',
-        'failed',
-        'error',
-        'timeout',
-        'cancelled'
-    ];
+DEFINE FIELD status ON task_queue TYPE string DEFAULT 'pending' ASSERT $value IN ['pending','awaiting_approval','approved','running','done','failed','error','timeout','cancelled'];
 DEFINE FIELD approved_by           ON task_queue TYPE option<string>;
 DEFINE FIELD approval_requested_at ON task_queue TYPE option<datetime>;
 DEFINE FIELD started_at            ON task_queue TYPE option<datetime>;
