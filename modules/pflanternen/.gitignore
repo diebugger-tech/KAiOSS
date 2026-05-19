@@ -1,0 +1,4 @@
+# Pflanternen Modul-spezifischer Gitignore
+reports/
+logs/
+*.log
