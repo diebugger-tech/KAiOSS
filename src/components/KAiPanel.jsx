@@ -20,11 +20,11 @@ const styles = {
     overflow: 'hidden',
     position: 'relative'
   },
-  sidebar: (collapsed, sidebarWidth, isResizing) => ({
-    width: collapsed ? '0' : `${sidebarWidth}px`,
-    minWidth: collapsed ? '0' : `${sidebarWidth}px`,
+  sidebar: (collapsed, sidebarWidth, isResizing, chatCollapsed) => ({
+    width: collapsed ? '0' : (chatCollapsed ? '100%' : `${sidebarWidth}px`),
+    minWidth: collapsed ? '0' : (chatCollapsed ? '100%' : `${sidebarWidth}px`),
     height: '100%',
-    borderRight: collapsed ? 'none' : '1px solid var(--border)',
+    borderRight: (collapsed || chatCollapsed) ? 'none' : '1px solid var(--border)',
     backgroundColor: 'var(--bg-secondary)',
     display: 'flex',
     flexDirection: 'column',
@@ -109,13 +109,15 @@ const styles = {
     fontSize: '9px',
     color: 'var(--text-muted)'
   },
-  chatArea: {
-    flex: 1,
-    display: 'flex',
+  chatArea: (chatCollapsed) => ({
+    flex: chatCollapsed ? 'none' : 1,
+    width: chatCollapsed ? '0' : 'auto',
+    minWidth: chatCollapsed ? '0' : 'auto',
+    display: chatCollapsed ? 'none' : 'flex',
     flexDirection: 'column',
     height: '100%',
     overflow: 'hidden'
-  },
+  }),
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -221,6 +223,9 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
   const [chats, setChats] = useState([]);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     return localStorage.getItem('kai_sidebar_collapsed') === 'true';
+  });
+  const [chatCollapsed, setChatCollapsed] = useState(() => {
+    return localStorage.getItem('kai_chat_collapsed') === 'true';
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [wikiContextCount, setWikiContextCount] = useState(0);
@@ -838,28 +843,54 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
       )}
 
       {/* Sidebar (Chat-Historie) */}
-      <div style={styles.sidebar(sidebarCollapsed, sidebarWidth, isResizingSidebar)}>
+      <div style={styles.sidebar(sidebarCollapsed, sidebarWidth, isResizingSidebar, chatCollapsed)}>
         <div style={styles.sidebarContent}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
             <span style={styles.sidebarTitle}>CHAT HISTORY</span>
-            <button 
-              onClick={() => {
-                setSidebarCollapsed(true);
-                localStorage.setItem('kai_sidebar_collapsed', 'true');
-              }}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-                fontSize: '14px',
-                padding: '2px 6px',
-                outline: 'none'
-              }}
-              title="Historie einklappen"
-            >
-              ◀
-            </button>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              {chatCollapsed && (
+                <button
+                  onClick={() => {
+                    setChatCollapsed(false);
+                    localStorage.setItem('kai_chat_collapsed', 'false');
+                  }}
+                  style={{
+                    background: 'none',
+                    border: '1px solid var(--border)',
+                    color: '#1D9E75',
+                    borderRadius: '4px',
+                    padding: '2px 8px',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    fontFamily: 'monospace',
+                    outline: 'none'
+                  }}
+                  title="Chat-Fenster ausklappen"
+                >
+                  ▶ CHAT
+                </button>
+              )}
+              {!chatCollapsed && (
+                <button 
+                  onClick={() => {
+                    setSidebarCollapsed(true);
+                    localStorage.setItem('kai_sidebar_collapsed', 'true');
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    padding: '2px 6px',
+                    outline: 'none'
+                  }}
+                  title="Historie einklappen"
+                >
+                  ◀
+                </button>
+              )}
+            </div>
           </div>
           <input
             value={searchQuery}
@@ -963,7 +994,7 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
             })}
           </div>
         </div>
-        {!sidebarCollapsed && (
+        {!sidebarCollapsed && !chatCollapsed && (
           <div 
             className="kai-sidebar-resize-handle"
             onMouseDown={handleSidebarResizeMouseDown}
@@ -972,7 +1003,7 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
       </div>
 
       {/* Haupt-Chat-Bereich */}
-      <div style={styles.chatArea}>
+      <div style={styles.chatArea(chatCollapsed)}>
         <div style={styles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {sidebarCollapsed && (
@@ -1067,6 +1098,38 @@ const KAiPanel = ({ aktiveProjekt, onClose, onOpenWiki }) => {
                 ))}
               </optgroup>
             </select>
+
+            {!sidebarCollapsed && (
+              <button
+                onClick={() => {
+                  setChatCollapsed(true);
+                  localStorage.setItem('kai_chat_collapsed', 'true');
+                }}
+                style={{
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: '#e0e0e0',
+                  borderRadius: '4px',
+                  padding: '2px 8px',
+                  cursor: 'pointer',
+                  fontFamily: 'monospace',
+                  fontSize: '11px',
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
+                }}
+                onMouseOver={(e) => { 
+                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.18)';
+                }}
+                onMouseOut={(e) => { 
+                  e.currentTarget.style.color = '#e0e0e0';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                }}
+                title="Chat einklappen"
+              >
+                ◀ CHAT
+              </button>
+            )}
 
             <button
               onClick={onClose}
