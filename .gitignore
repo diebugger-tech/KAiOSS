@@ -92,3 +92,7 @@ knowledge/
 docs/review-queue.md
 history.txt
 # (bereits durch /*.surql abgedeckt)
+
+# Module Pflanternen Logs und Reports
+modules/pflanternen/logs/
+modules/pflanternen/reports/
